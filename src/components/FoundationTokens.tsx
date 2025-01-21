@@ -4,14 +4,16 @@ import { Icon } from '@iconify/react';
 import { dynamicTextColors, fixedColors } from '../constants/colors';
 import ComponentsShowcase from './ComponentsShowcase';
 import Icons from './Icons';
+import { usePalette } from '@/context/PaletteContext';
 
 interface FoundationTokensProps {
   theme: 'light' | 'dark';
   colors: string[];
 }
 
-const FoundationTokens: React.FC<FoundationTokensProps> = ({ theme, colors }) => {
+const FoundationTokens: React.FC<FoundationTokensProps> = ({ theme }) => {
   const [activeTab, setActiveTab] = useState('colors');
+  const { colors } = usePalette();
 
   const tabs = [
     { id: 'colors', icon: Palette, label: 'Colors' },

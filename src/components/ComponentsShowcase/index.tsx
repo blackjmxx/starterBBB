@@ -31,7 +31,7 @@ import {
   Tooltip,
   TransferList,
   TreeView
-} from './components';
+} from '../../components/primitives';
 
 const ComponentsShowcase: React.FC = () => {
   const { colors } = usePalette();

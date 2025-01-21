@@ -4,9 +4,9 @@ interface RadioProps {
   colors: string[];
 }
 
-const Radio: React.FC<RadioProps> = ({ colors }) => {
+const Radio: React.FC<RadioProps> = () => {
   const [selected, setSelected] = useState<string>('');
-
+  const { colors } = usePalette();
   const sizes = {
     sm: 'h-4 w-4',
     md: 'h-5 w-5',

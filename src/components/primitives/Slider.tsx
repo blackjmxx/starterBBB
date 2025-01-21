@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
+  import { usePalette } from '@/context/PaletteContext';
 
 interface SliderProps {
   colors: string[];
 }
 
-const Slider: React.FC<SliderProps> = ({ colors }) => {
+const Slider: React.FC<SliderProps> = () => {
   const [value, setValue] = useState(50);
   const [rangeValue, setRangeValue] = useState([30, 70]);
   const [volume, setVolume] = useState(75);
+  const { colors } = usePalette();
 
   const getTrackBackground = (val: number, color: string) => {
     return {

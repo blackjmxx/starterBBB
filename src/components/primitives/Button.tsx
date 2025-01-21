@@ -1,17 +1,18 @@
 import React from 'react';
 import { Loader2, Plus, ArrowRight } from 'lucide-react';
-
+import { usePalette } from '@/context/PaletteContext';
 interface ButtonProps {
   colors: string[];
 }
 
-const Button: React.FC<ButtonProps> = ({ colors }) => {
+const Button: React.FC<ButtonProps> = () => {
   const variants = [
     { type: 'solid', label: 'Solid' },
     { type: 'outline', label: 'Outline' },
     { type: 'ghost', label: 'Ghost' },
     { type: 'link', label: 'Link' }
   ];
+  const { colors } = usePalette();
 
   const sizes = [
     { size: 'sm', label: 'Small' },

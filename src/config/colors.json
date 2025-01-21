@@ -1,0 +1,20 @@
+{
+  "themes": [
+    {
+      "name": "default",
+      "colors": ["#d7d0c8", "#c8c6af", "#336699", "#be6e46", "#aa4586", "#000100"],
+      "description": "Thème par défaut"
+    },
+    {
+      "name": "ocean",
+      "colors": ["#e3f2fd", "#bbdefb", "#2196f3", "#1976d2", "#0d47a1", "#002171"],
+      "description": "Thème océan"
+    },
+    {
+      "name": "forest",
+      "colors": ["#e8f5e9", "#c8e6c9", "#4caf50", "#388e3c", "#1b5e20", "#003300"],
+      "description": "Thème forêt"
+    }
+  ],
+  "activeTheme": "default"
+} 

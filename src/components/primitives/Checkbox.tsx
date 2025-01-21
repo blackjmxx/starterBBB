@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Check } from 'lucide-react';
+import { usePalette } from '@/context/PaletteContext';
 
 interface CheckboxProps {
   colors: string[];
 }
 
-const Checkbox: React.FC<CheckboxProps> = ({ colors }) => {
+const Checkbox: React.FC<CheckboxProps> = () => {
   const [checked, setChecked] = useState<{ [key: string]: boolean }>({});
-
+  const { colors } = usePalette();
   const toggleCheck = (key: string) => {
     setChecked(prev => ({ ...prev, [key]: !prev[key] }));
   };

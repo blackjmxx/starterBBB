@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { usePalette } from '@/context/PaletteContext';
 
 interface SwitchProps {
   colors: string[];
 }
 
-const Switch: React.FC<SwitchProps> = ({ colors }) => {
+const Switch: React.FC<SwitchProps> = () => {
+  const { colors } = usePalette();
   const [enabled, setEnabled] = useState<{ [key: string]: boolean }>({});
 
   const sizes = {

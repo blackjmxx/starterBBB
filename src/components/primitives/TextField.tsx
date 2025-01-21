@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Search, AlertCircle } from 'lucide-react';
+import { usePalette } from '@/context/PaletteContext';
 
 interface TextFieldProps {
   colors: string[];
 }
 
-const TextField: React.FC<TextFieldProps> = ({ colors }) => {
+const TextField: React.FC<TextFieldProps> = () => {
   const [values, setValues] = useState<{ [key: string]: string }>({});
   const [showPassword, setShowPassword] = useState(false);
-
+  const { colors } = usePalette();
   return (
     <div className="space-y-8">
       {/* Colors */}

@@ -1,5 +1,4 @@
-import React from 'react';
-import { User } from 'lucide-react';
+import { User, LucideIcon } from 'lucide-react';
 
 const Avatar = () => {
   const sizes = {
@@ -9,7 +8,15 @@ const Avatar = () => {
     xl: 'w-20 h-20 text-lg'
   };
 
-  const variants = [
+  // Définir le type pour les variants
+  type Variant = {
+    type: 'image' | 'initials' | 'icon';
+    src?: string;
+    text?: string;
+    icon?: LucideIcon;
+  }
+
+  const variants: Variant[] = [
     {
       type: 'image',
       src: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
@@ -66,7 +73,7 @@ const Avatar = () => {
                     {variant.text}
                   </span>
                 )}
-                {variant.type === 'icon' && (
+                {variant.type === 'icon' && variant.icon && (
                   <variant.icon className="w-8 h-8 text-gray-500 dark:text-gray-400" />
                 )}
               </div>

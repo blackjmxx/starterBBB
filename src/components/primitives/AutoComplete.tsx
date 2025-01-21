@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { Search, X } from 'lucide-react';
+import { usePalette } from '@/context/PaletteContext';
 
 interface AutoCompleteProps {
   colors: string[];
 }
 
-const AutoComplete: React.FC<AutoCompleteProps> = ({ colors }) => {
+const AutoComplete: React.FC<AutoCompleteProps> = () => {
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-
+  const { colors } = usePalette();
   const suggestions = [
     'React',
     'React Native',
