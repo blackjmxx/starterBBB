@@ -1,3 +1,5 @@
+import AccordionDemo from './Accordion';
+
 export { default as Accordion } from './Accordion';
 export { default as Alert } from './Alert';
 export { default as AutoComplete } from './AutoComplete';
@@ -28,3 +30,4 @@ export { default as Timeline } from './Timeline';
 export { default as Tooltip } from './Tooltip';
 export { default as TransferList } from './TransferList';
 export { default as TreeView } from './TreeView';
+export { default as AccordionDemo } from './Accordion';

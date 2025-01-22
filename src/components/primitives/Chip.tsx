@@ -1,7 +1,7 @@
-import React from 'react';
-import { X, Check, AlertCircle, Clock } from 'lucide-react';
+import { Check, AlertCircle, Clock } from 'lucide-react';
+import { Chip } from '@/components/ui/chip';
 
-const Chip = () => {
+const ChipDemo = () => {
   const variants = [
     { type: 'filled', label: 'Filled' },
     { type: 'outlined', label: 'Outlined' },
@@ -9,33 +9,18 @@ const Chip = () => {
   ];
 
   const colors = [
-    { name: 'default', bg: 'bg-gray-100', text: 'text-gray-800', border: 'border-gray-300', soft: 'bg-gray-50' },
-    { name: 'primary', bg: 'bg-blue-100', text: 'text-blue-800', border: 'border-blue-300', soft: 'bg-blue-50' },
-    { name: 'success', bg: 'bg-green-100', text: 'text-green-800', border: 'border-green-300', soft: 'bg-green-50' },
-    { name: 'warning', bg: 'bg-yellow-100', text: 'text-yellow-800', border: 'border-yellow-300', soft: 'bg-yellow-50' },
-    { name: 'error', bg: 'bg-red-100', text: 'text-red-800', border: 'border-red-300', soft: 'bg-red-50' }
+    { name: 'default' },
+    { name: 'primary' },
+    { name: 'success' },
+    { name: 'warning' },
+    { name: 'error' }
   ];
 
   const statuses = [
-    { label: 'Completed', icon: Check, color: colors[2] },
-    { label: 'Pending', icon: Clock, color: colors[3] },
-    { label: 'Error', icon: AlertCircle, color: colors[4] }
+    { label: 'Completed', icon: Check, color: 'success' },
+    { label: 'Pending', icon: Clock, color: 'warning' },
+    { label: 'Error', icon: AlertCircle, color: 'error' }
   ];
-
-  const getChipClasses = (variant: string, color: any) => {
-    const baseClasses = 'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium';
-    
-    switch (variant) {
-      case 'filled':
-        return `${baseClasses} ${color.bg} ${color.text}`;
-      case 'outlined':
-        return `${baseClasses} border ${color.border} ${color.text} bg-transparent`;
-      case 'soft':
-        return `${baseClasses} ${color.soft} ${color.text}`;
-      default:
-        return baseClasses;
-    }
-  };
 
   return (
     <div className="space-y-8">
@@ -44,9 +29,9 @@ const Chip = () => {
         <h3 className="text-lg font-medium dark:text-white">Variants</h3>
         <div className="flex flex-wrap gap-4">
           {variants.map((variant) => (
-            <div key={variant.type} className={getChipClasses(variant.type, colors[0])}>
+            <Chip key={variant.type} variant={variant.type}>
               {variant.label}
-            </div>
+            </Chip>
           ))}
         </div>
       </div>
@@ -56,9 +41,9 @@ const Chip = () => {
         <h3 className="text-lg font-medium dark:text-white">Colors</h3>
         <div className="flex flex-wrap gap-4">
           {colors.map((color) => (
-            <div key={color.name} className={getChipClasses('filled', color)}>
+            <Chip key={color.name} color={color.name} variant="filled">
               {color.name.charAt(0).toUpperCase() + color.name.slice(1)}
-            </div>
+            </Chip>
           ))}
         </div>
       </div>
@@ -68,10 +53,14 @@ const Chip = () => {
         <h3 className="text-lg font-medium dark:text-white">With Icon</h3>
         <div className="flex flex-wrap gap-4">
           {statuses.map((status) => (
-            <div key={status.label} className={getChipClasses('filled', status.color)}>
-              <status.icon className="w-4 h-4 mr-1" />
+            <Chip
+              key={status.label}
+              icon={status.icon}
+              color={status.color}
+              variant="filled"
+            >
               {status.label}
-            </div>
+            </Chip>
           ))}
         </div>
       </div>
@@ -81,18 +70,13 @@ const Chip = () => {
         <h3 className="text-lg font-medium dark:text-white">Deletable</h3>
         <div className="flex flex-wrap gap-4">
           {variants.map((variant) => (
-            <div
+            <Chip
               key={variant.type}
-              className={`${getChipClasses(variant.type, colors[0])} pr-2`}
+              variant={variant.type}
+              onDelete={() => {}}
             >
-              <span className="mr-1">{variant.label}</span>
-              <button
-                className="p-0.5 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full"
-                onClick={() => {}}
-              >
-                <X className="w-3 h-3" />
-              </button>
-            </div>
+              {variant.label}
+            </Chip>
           ))}
         </div>
       </div>
@@ -112,7 +96,7 @@ const Chip = () => {
 
 // With Icon
 <Chip
-  icon={<CheckIcon />}
+  icon={CheckIcon}
   color="success"
 >
   Completed
@@ -132,4 +116,4 @@ const Chip = () => {
   );
 };
 
-export default Chip;
+export default ChipDemo;

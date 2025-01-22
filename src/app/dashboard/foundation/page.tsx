@@ -29,7 +29,7 @@ import Badge from '@/components/primitives/Badge';
 import Chip from '@/components/primitives/Chip';
 import Popover from '@/components/primitives/Popover';
 import TransferList from '@/components/primitives/TransferList';
-
+import Accordion from '@/components/primitives/Accordion';
 export default function FoundationPage() {
   const { colors } = usePalette();
   const [activeComponent, setActiveComponent] = useState('Button');
@@ -71,7 +71,8 @@ export default function FoundationPage() {
       Badge,
       Chip,
       Popover,
-      TransferList
+      TransferList,
+      Accordion
     }
   };
 

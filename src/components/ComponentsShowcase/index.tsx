@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { usePalette } from '../../context/PaletteContext';
 import {
-  Accordion,
+  AccordionDemo as Accordion,
   Alert,
   AutoComplete,
   Avatar,
@@ -74,7 +74,8 @@ const ComponentsShowcase: React.FC = () => {
       Badge,
       Chip,
       Popover,
-      TransferList
+      TransferList,
+      Accordion
     }
   };
 

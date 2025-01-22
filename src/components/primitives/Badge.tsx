@@ -1,7 +1,7 @@
-import React from 'react';
 import { Bell, Mail, ShoppingCart } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
-const Badge = () => {
+const BadgeDemo = () => {
   const variants = [
     {
       type: 'dot',
@@ -50,18 +50,14 @@ const Badge = () => {
         <h3 className="text-lg font-medium dark:text-white">Basic Badges</h3>
         <div className="flex items-center gap-8">
           {variants.map((variant, index) => (
-            <div key={index} className="relative inline-flex">
-              <button className="inline-flex items-center justify-center p-2 rounded-lg bg-white dark:bg-gray-800 border dark:border-gray-700">
-                <variant.icon className="h-6 w-6 text-gray-600 dark:text-gray-300" />
-              </button>
-              {variant.type === 'dot' ? (
-                <span className={`absolute top-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white dark:ring-gray-800 ${colors[variant.color as keyof typeof colors].dot}`} />
-              ) : (
-                <span className={`absolute -top-2 -right-2 h-5 min-w-[20px] rounded-full ${colors[variant.color as keyof typeof colors].bg} ${colors[variant.color as keyof typeof colors].text} px-1.5 py-0.5 text-xs font-medium flex items-center justify-center ring-2 ring-white dark:ring-gray-800`}>
-                  {variant.count}
-                </span>
-              )}
-            </div>
+            <Badge
+              key={index}
+              type={variant.type}
+              color={variant.color}
+              count={variant.count}
+              icon={variant.icon}
+              label={variant.label}
+            />
           ))}
         </div>
       </div>
@@ -70,13 +66,14 @@ const Badge = () => {
       <div className="space-y-4">
         <h3 className="text-lg font-medium dark:text-white">Standalone Badges</h3>
         <div className="flex items-center gap-4">
-          {Object.entries(colors).map(([color, styles]) => (
-            <span
+          {Object.entries(colors).map(([color]) => (
+            <Badge
               key={color}
-              className={`inline-flex items-center rounded-full ${styles.bg} ${styles.text} px-2.5 py-0.5 text-xs font-medium capitalize`}
+              type="standalone"
+              color={color}
             >
               {color}
-            </span>
+            </Badge>
           ))}
         </div>
       </div>
@@ -138,4 +135,4 @@ const Badge = () => {
   );
 };
 
-export default Badge;
+export default BadgeDemo;
