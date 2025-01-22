@@ -34,11 +34,11 @@ const Menu = () => {
     <div className="space-y-8">
       {/* Basic Menu */}
       <div className="space-y-4">
-        <h3 className="text-lg font-medium dark:text-white">Basic Menu</h3>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Basic Menu</h3>
         <div className="relative inline-block">
           <button
             onClick={() => setOpenMenu(openMenu === 'basic' ? null : 'basic')}
-            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="p-2 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             <MoreVertical className="h-5 w-5" />
           </button>
@@ -55,7 +55,7 @@ const Menu = () => {
                     key={index}
                     className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
-                    <item.icon className="h-4 w-4 mr-3" />
+                    <item.icon className="h-4 w-4 mr-3 text-gray-500 dark:text-gray-400" />
                     {item.label}
                   </button>
                 ))}
@@ -67,11 +67,11 @@ const Menu = () => {
 
       {/* Nested Menu */}
       <div className="space-y-4">
-        <h3 className="text-lg font-medium dark:text-white">Nested Menu</h3>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Nested Menu</h3>
         <div className="relative inline-block">
           <button
             onClick={() => setOpenMenu(openMenu === 'nested' ? null : 'nested')}
-            className="px-4 py-2 bg-white dark:bg-gray-700 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600"
+            className="px-4 py-2 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600"
           >
             Open Menu
           </button>
@@ -87,10 +87,10 @@ const Menu = () => {
                   <div key={index} className="relative group">
                     <button className="flex items-center justify-between w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
                       <div className="flex items-center">
-                        <item.icon className="h-4 w-4 mr-3" />
+                        <item.icon className="h-4 w-4 mr-3 text-gray-500 dark:text-gray-400" />
                         {item.label}
                       </div>
-                      <ChevronRight className="h-4 w-4" />
+                      <ChevronRight className="h-4 w-4 text-gray-500 dark:text-gray-400" />
                     </button>
 
                     <div className="absolute left-full top-0 hidden group-hover:block">
@@ -100,7 +100,7 @@ const Menu = () => {
                             key={subindex}
                             className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
                           >
-                            {subitem.icon && <subitem.icon className="h-4 w-4 mr-3" />}
+                            {subitem.icon && <subitem.icon className="h-4 w-4 mr-3 text-gray-500 dark:text-gray-400" />}
                             {subitem.label}
                           </button>
                         ))}
@@ -114,23 +114,9 @@ const Menu = () => {
         </div>
       </div>
 
-      {/* Context Menu */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-medium dark:text-white">Context Menu</h3>
-        <div
-          className="p-8 bg-white dark:bg-gray-700 rounded-lg border text-center"
-          onContextMenu={(e) => {
-            e.preventDefault();
-            setOpenMenu('context');
-          }}
-        >
-          Right click here to open context menu
-        </div>
-      </div>
-
       {/* Usage */}
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg">
-        <h3 className="text-lg font-medium mb-4 dark:text-white">Usage</h3>
+        <h3 className="text-lg font-medium mb-4 text-gray-900 dark:text-white">Usage</h3>
         <pre className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
           <code className="text-sm text-gray-800 dark:text-gray-200">
 {`// Basic Menu

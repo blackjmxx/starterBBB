@@ -1,5 +1,4 @@
-import { DatePicker } from '@/components/ui/datepicker';
-import { Calendar } from 'lucide-react';
+import { DatePicker } from '@/components/ui/DatePicker';
 
 const DatePickerDemo = () => {
   return (
