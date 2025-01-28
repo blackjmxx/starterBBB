@@ -1,5 +1,5 @@
-import { ChevronRight, Star, MoreVertical, Mail, Phone, MapPin } from 'lucide-react';
 import { List, ListItem } from '@/components/ui/list';
+import { Mail, MoreVertical, Phone, Star } from 'lucide-react';
 
 const ListDemo = () => {
   const basicItems = ['Inbox', 'Sent', 'Drafts', 'Trash'];
@@ -83,40 +83,6 @@ const ListDemo = () => {
             </ListItem>
           ))}
         </List>
-      </div>
-
-      {/* Usage */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg">
-        <h3 className="text-lg font-medium mb-4 dark:text-white">Usage</h3>
-        <pre className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
-          <code className="text-sm text-gray-800 dark:text-gray-200">
-{`// Basic List
-<List variant="basic">
-  <ListItem>Item 1</ListItem>
-  <ListItem>Item 2</ListItem>
-</List>
-
-// With Icons
-<List variant="icon">
-  <ListItem
-    icon={MailIcon}
-    label="Messages"
-    count={3}
-  />
-</List>
-
-// Complex List
-<List variant="complex">
-  <ListItem
-    avatar="/path/to/avatar.jpg"
-    title="User Name"
-    email="user@example.com"
-  >
-    <MoreVerticalIcon />
-  </ListItem>
-</List>`}
-          </code>
-        </pre>
       </div>
     </div>
   );

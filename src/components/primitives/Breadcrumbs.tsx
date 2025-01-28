@@ -1,7 +1,13 @@
+import { Breadcrumb } from '@/aria-component/breadcrumbs';
 import { Home } from 'lucide-react';
-import { Breadcrumbs } from '@/components/ui/breadcrumbs';
+import React from 'react';
 
-const BreadcrumbsDemo = () => {
+// Custom BreadcrumbItem component
+const BreadcrumbItem: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <li className="inline-flex items-center">{children}</li>
+);
+
+const Breadcrumbs = () => {
   const variants = [
     {
       type: 'basic',
@@ -22,6 +28,15 @@ const BreadcrumbsDemo = () => {
     }
   ];
 
+  const renderBreadcrumbItems = (items: any[], type: string) => {
+    return items.map((item, index) => (
+      <BreadcrumbItem key={index}>
+        {type === 'with-icons' && item.icon && <item.icon className="w-4 h-4 mr-2" />}
+        {typeof item === 'string' ? item : item.label}
+      </BreadcrumbItem>
+    ));
+  };
+
   return (
     <div className="space-y-8">
       {variants.map((variant) => (
@@ -29,10 +44,11 @@ const BreadcrumbsDemo = () => {
           <h3 className="text-lg font-medium dark:text-white capitalize">
             {variant.type.split('-').join(' ')} Breadcrumbs
           </h3>
-          <Breadcrumbs 
-            type={variant.type} 
-            items={variant.items} 
-          />
+          <Breadcrumb>
+            <ol className="flex items-center space-x-2">
+              {renderBreadcrumbItems(variant.items, variant.type)}
+            </ol>
+          </Breadcrumb>
         </div>
       ))}
 
@@ -40,24 +56,43 @@ const BreadcrumbsDemo = () => {
         <h3 className="text-lg font-medium mb-4 dark:text-white">Usage</h3>
         <pre className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
           <code className="text-sm text-gray-800 dark:text-gray-200">
-{`// Basic Breadcrumbs
-<Breadcrumbs items={['Home', 'Products', 'Electronics']} />
+{`import { Breadcrumb } from '@/aria-component/breadcrumbs';
+import { Home } from 'lucide-react';
+
+const BreadcrumbItem = ({ children }) => (
+  <li className="inline-flex items-center">{children}</li>
+);
+
+// Basic Breadcrumbs
+<Breadcrumb>
+  <ol className="flex items-center space-x-2">
+    <BreadcrumbItem>Home</BreadcrumbItem>
+    <BreadcrumbItem>Products</BreadcrumbItem>
+    <BreadcrumbItem>Electronics</BreadcrumbItem>
+  </ol>
+</Breadcrumb>
 
 // With Icons
-<Breadcrumbs
-  items={[
-    { icon: HomeIcon, label: 'Home' },
-    { label: 'Products' },
-    { label: 'Electronics' }
-  ]}
-  type="with-icons"
-/>
+<Breadcrumb>
+  <ol className="flex items-center space-x-2">
+    <BreadcrumbItem>
+      <Home className="w-4 h-4 mr-2" />
+      Home
+    </BreadcrumbItem>
+    <BreadcrumbItem>Products</BreadcrumbItem>
+    <BreadcrumbItem>Electronics</BreadcrumbItem>
+  </ol>
+</Breadcrumb>
 
-// Collapsed Breadcrumbs
-<Breadcrumbs
-  items={['Home', 'Products', 'Electronics', 'Laptops']}
-  type="collapsed"
-/>`}
+// Collapsed Breadcrumbs (Note: Collapsing logic needs to be implemented separately)
+<Breadcrumb>
+  <ol className="flex items-center space-x-2">
+    <BreadcrumbItem>Home</BreadcrumbItem>
+    <BreadcrumbItem>...</BreadcrumbItem>
+    <BreadcrumbItem>Electronics</BreadcrumbItem>
+    <BreadcrumbItem>Laptops</BreadcrumbItem>
+  </ol>
+</Breadcrumb>`}
           </code>
         </pre>
       </div>
@@ -65,4 +100,4 @@ const BreadcrumbsDemo = () => {
   );
 };
 
-export default BreadcrumbsDemo;
+export default Breadcrumbs;

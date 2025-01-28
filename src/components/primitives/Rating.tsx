@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import { Star } from 'lucide-react';
+import { useState } from 'react';
 
 const Rating = () => {
   const [rating, setRating] = useState<number>(3);
@@ -142,47 +142,6 @@ const Rating = () => {
             {customRating} out of 5
           </span>
         </div>
-      </div>
-
-      {/* Usage */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg">
-        <h3 className="text-lg font-medium mb-4 dark:text-white">Usage</h3>
-        <pre className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
-          <code className="text-sm text-gray-800 dark:text-gray-200">
-{`// Basic Rating
-<Rating
-  value={rating}
-  onChange={setRating}
-/>
-
-// With Size
-<Rating
-  value={rating}
-  onChange={setRating}
-  size="lg"
-/>
-
-// With Color
-<Rating
-  value={rating}
-  onChange={setRating}
-  color="purple"
-/>
-
-// Read Only
-<Rating
-  value={4}
-  readOnly
-/>
-
-// Custom Icons
-<Rating
-  value={rating}
-  onChange={setRating}
-  icon={CustomIcon}
-/>`}
-          </code>
-        </pre>
       </div>
     </div>
   );

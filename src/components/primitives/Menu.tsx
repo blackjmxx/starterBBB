@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { MoreVertical, User, Settings, LogOut, ChevronRight, Sun, Moon } from 'lucide-react';
+import { ChevronRight, LogOut, Moon, MoreVertical, Settings, Sun, User } from 'lucide-react';
+import { useState } from 'react';
 
 const Menu = () => {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
@@ -112,36 +112,6 @@ const Menu = () => {
             </>
           )}
         </div>
-      </div>
-
-      {/* Usage */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg">
-        <h3 className="text-lg font-medium mb-4 text-gray-900 dark:text-white">Usage</h3>
-        <pre className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
-          <code className="text-sm text-gray-800 dark:text-gray-200">
-{`// Basic Menu
-<Menu>
-  <MenuItem icon={<UserIcon />}>Profile</MenuItem>
-  <MenuItem icon={<SettingsIcon />}>Settings</MenuItem>
-  <MenuItem icon={<LogOutIcon />}>Logout</MenuItem>
-</Menu>
-
-// Nested Menu
-<Menu>
-  <SubMenu label="Theme" icon={<SunIcon />}>
-    <MenuItem>Light</MenuItem>
-    <MenuItem>Dark</MenuItem>
-  </SubMenu>
-</Menu>
-
-// Context Menu
-<ContextMenu>
-  <MenuItem>Cut</MenuItem>
-  <MenuItem>Copy</MenuItem>
-  <MenuItem>Paste</MenuItem>
-</ContextMenu>`}
-          </code>
-        </pre>
       </div>
     </div>
   );

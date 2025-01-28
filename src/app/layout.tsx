@@ -1,14 +1,13 @@
-import type { Metadata } from 'next';
-import { ThemeProvider } from '@/context/ThemeContext';
-import { PaletteProvider } from '@/context/PaletteContext';
-import colorConfig from '@/config/colors.json';
-import { ColorConfig } from '@/types/colors';
-import '@/styles/globals.css';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Nkunu',
-  description: 'Application de gestion',
-};
+import colorConfig from '@/config/colors.json';
+import { LayoutProvider } from '@/context/LayoutContext';
+import { PaletteProvider } from '@/context/PaletteContext';
+import { ThemeProvider } from '@/context/ThemeContext';
+import '@/styles/accents.css';
+import '@/styles/index.css';
+import '@/styles/initials.css';
+import { ColorConfig } from '@/types/colors';
 
 export default function RootLayout({
   children,
@@ -23,11 +22,13 @@ export default function RootLayout({
     <html lang="fr">
       <body>
         <ThemeProvider>
-          <PaletteProvider colors={colors}>
-            {children}
+          <PaletteProvider initialColors={colors}>
+            <LayoutProvider>
+              {children}
+            </LayoutProvider>
           </PaletteProvider>
         </ThemeProvider>
       </body>
     </html>
   );
-} 
+}

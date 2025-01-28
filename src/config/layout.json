@@ -1,0 +1,16 @@
+{
+  "layouts": [
+    {
+      "name": "default",
+      "description": "Default Layout"
+    },
+    {
+      "name": "sidebar",
+      "description": "Sidebar Layout"
+    },
+    {
+      "name": "topnav",
+      "description": "Top Navigation Layout"
+    }
+  ]
+}

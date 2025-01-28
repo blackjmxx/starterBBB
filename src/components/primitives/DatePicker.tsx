@@ -1,4 +1,4 @@
-import { DatePicker } from '@/components/ui/DatePicker';
+import { DatePicker } from '@/components/ui/datePicker';
 
 const DatePickerDemo = () => {
   return (

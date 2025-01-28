@@ -66,8 +66,8 @@ const Checkbox: React.FC<CheckboxProps> = ({
           value={value}
         />
         <div
-          className={`${sizes[size]} rounded flex items-center justify-center border-2 transition-colors ${
-            disabled ? 'bg-gray-100 border-gray-300' : ''
+          className={`${sizes[size]} rounded flex items-center justify-center border-2 transition-colors dark:text-white${
+            disabled ? 'bg-gray-100 border-gray-300 text-white' : ''
           }`}
           style={{
             borderColor: checked || indeterminate ? color : 'currentColor',

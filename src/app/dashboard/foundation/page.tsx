@@ -1,47 +1,59 @@
 'use client';
-import { useState } from 'react';
+import DefaultLayout from '@/components/dashboard/layouts/DefaultLayout';
+import SidebarLayout from '@/components/dashboard/layouts/SidebarLayout';
+import TopNavLayout from '@/components/dashboard/layouts/TopNavLayout';
+import {
+  Accordion,
+  Alert,
+  Badge,
+  Chip,
+  DataGrid,
+  Dialog,
+  Drawer,
+  List,
+  Menu,
+  Popover,
+  Progress,
+  Rating,
+  Slider,
+  Stepper,
+  Table,
+  Tabs,
+  Timeline,
+  Tooltip,
+  TransferList,
+  TreeView
+} from '@/components/primitives';
 import { usePalette } from '@/context/PaletteContext';
-import Button from '@/components/primitives/Button';
-import Checkbox from '@/components/primitives/Checkbox';
-import Radio from '@/components/primitives/Radio';
-import Switch from '@/components/primitives/Switch';
-import TextField from '@/components/primitives/TextField';
-import AutoComplete from '@/components/primitives/AutoComplete';
-import Slider from '@/components/primitives/Slider';
-import Table from '@/components/primitives/Table';
-import DataGrid from '@/components/primitives/DataGrid';
-import List from '@/components/primitives/List';
-import Timeline from '@/components/primitives/Timeline';
-import TreeView from '@/components/primitives/TreeView';
-import Breadcrumbs from '@/components/primitives/Breadcrumbs';
-import Menu from '@/components/primitives/Menu';
-import Tabs from '@/components/primitives/Tabs';
-import Pagination from '@/components/primitives/Pagination';
-import Stepper from '@/components/primitives/Stepper';
-import Alert from '@/components/primitives/Alert';
-import Dialog from '@/components/primitives/Dialog';
-import Drawer from '@/components/primitives/Drawer';
-import Progress from '@/components/primitives/Progress';
-import Rating from '@/components/primitives/Rating';
-import Tooltip from '@/components/primitives/Tooltip';
-import Avatar from '@/components/primitives/Avatar';
-import Badge from '@/components/primitives/Badge';
-import Chip from '@/components/primitives/Chip';
-import Popover from '@/components/primitives/Popover';
-import TransferList from '@/components/primitives/TransferList';
-import Accordion from '@/components/primitives/Accordion';
+import { useState } from 'react';
+import AutoCompleteDemo from './AutoCompleteDemo';
+import AvatarDemo from './AvatarDemo';
+import BreadcrumbsDemo from './BreadcrumbsDemo';
+import ButtonDemo from './ButtonDemo';
+import CheckboxDemo from './CheckboxDemo';
+import ClipboardDemo from './ClipboardDemo';
+import RadioDemo from './RadioDemo';
+import SwitchDemo from './SwitchDemo';
+import TextFieldDemo from './TextFieldDemo';
+
 export default function FoundationPage() {
   const { colors } = usePalette();
-  const [activeComponent, setActiveComponent] = useState('Button');
+  const [activeComponent, setActiveComponent] = useState('ButtonDemo');
+  const [activeDashboardLayout, setActiveDashboardLayout] = useState('DefaultLayout');
 
   const componentGroups = {
+    'Dashboard Layouts': {
+      DefaultLayout,
+      SidebarLayout,
+      TopNavLayout
+    },
     'Input Controls': {
-      Button,
-      Checkbox,
-      Radio,
-      Switch,
-      TextField,
-      AutoComplete,
+      ButtonDemo,
+      CheckboxDemo,
+      RadioDemo,
+      SwitchDemo,
+      TextFieldDemo,
+      AutoCompleteDemo,
       Slider
     },
     'Data Display': {
@@ -52,10 +64,9 @@ export default function FoundationPage() {
       TreeView
     },
     'Navigation': {
-      Breadcrumbs,
+      BreadcrumbsDemo,
       Menu,
       Tabs,
-      Pagination,
       Stepper
     },
     'Feedback': {
@@ -67,12 +78,15 @@ export default function FoundationPage() {
       Tooltip
     },
     'Elements': {
-      Avatar,
+      AvatarDemo,
       Badge,
       Chip,
       Popover,
       TransferList,
       Accordion
+    },
+    'Utilities': {
+      ClipboardDemo
     }
   };
 
@@ -82,7 +96,8 @@ export default function FoundationPage() {
     ...group
   }), {});
 
-  const ActiveComponent = allComponents[activeComponent as keyof typeof allComponents];
+  const ActiveComponent = allComponents[activeComponent as keyof typeof allComponents] as React.ComponentType<any>;
+  const ActiveDashboardLayout = componentGroups['Dashboard Layouts'][activeDashboardLayout as keyof typeof componentGroups['Dashboard Layouts']] as React.ComponentType<any>;
 
   return (
     <div className="space-y-8">
@@ -95,9 +110,16 @@ export default function FoundationPage() {
               {Object.keys(components).map(name => (
                 <button
                   key={name}
-                  onClick={() => setActiveComponent(name)}
+                  onClick={() => {
+                    if (groupName === 'Dashboard Layouts') {
+                      setActiveDashboardLayout(name);
+                    } else {
+                      setActiveComponent(name);
+                      setActiveDashboardLayout(''); // Reset dashboard layout when selecting a component
+                    }
+                  }}
                   className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                    activeComponent === name
+                    (groupName === 'Dashboard Layouts' ? activeDashboardLayout : activeComponent) === name
                       ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white'
                       : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
                   }`}
@@ -112,8 +134,17 @@ export default function FoundationPage() {
 
       {/* Affichage du composant actif */}
       <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
-        <ActiveComponent />
+        {activeDashboardLayout ? (
+          <ActiveDashboardLayout>
+            <div className="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+              <h2 className="text-lg font-semibold mb-2">Dashboard Content</h2>
+              <p>This is a placeholder for the dashboard content. The layout you've selected is applied to this content.</p>
+            </div>
+          </ActiveDashboardLayout>
+        ) : (
+          <ActiveComponent />
+        )}
       </div>
     </div>
   );
-} 
+}

@@ -1,29 +1,32 @@
-import React, { useState } from 'react';
-import { Search, X } from 'lucide-react';
+import {
+  ComboBox,
+  ComboBoxButton,
+  ComboBoxInput,
+  ComboBoxListBox,
+  ComboBoxListItem,
+  ComboBoxPopover
+} from '@/aria-component/combobox';
 import { usePalette } from '@/context/PaletteContext';
+import { Search } from 'lucide-react';
+import React, { useState } from 'react';
 
-interface AutoCompleteProps {
-  colors: string[];
-}
+const suggestions = [
+  'React',
+  'React Native',
+  'React Router',
+  'Redux',
+  'TypeScript',
+  'JavaScript',
+  'Node.js',
+  'Next.js',
+  'Vue.js',
+  'Angular'
+];
 
-const AutoComplete: React.FC<AutoCompleteProps> = () => {
-  const [query, setQuery] = useState('');
+const AutoComplete: React.FC = () => {
+  const [selectedItem, setSelectedItem] = useState<string | undefined>(undefined);
   const [isOpen, setIsOpen] = useState(false);
   const { colors } = usePalette();
-  const suggestions = [
-    'React',
-    'React Native',
-    'React Router',
-    'Redux',
-    'TypeScript',
-    'JavaScript',
-    'Node.js',
-    'Next.js',
-    'Vue.js',
-    'Angular'
-  ].filter(item => 
-    item.toLowerCase().includes(query.toLowerCase())
-  );
 
   return (
     <div className="space-y-8">
@@ -31,18 +34,19 @@ const AutoComplete: React.FC<AutoCompleteProps> = () => {
       <div className="space-y-4">
         <h3 className="text-lg font-medium dark:text-white">Colors</h3>
         <div className="grid grid-cols-2 gap-4">
-          {colors.map((color, index) => (
-            <div key={index} className="relative">
+          {colors.slice(0, 2).map((color, index) => (
+            <ComboBox
+              key={index}
+              selectedKey={selectedItem}
+              onSelectionChange={(key) => {
+                setSelectedItem(key as string);
+                setIsOpen(false);
+              }}
+              onOpenChange={setIsOpen}
+            >
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                <input
-                  type="text"
-                  value={query}
-                  onChange={(e) => {
-                    setQuery(e.target.value);
-                    setIsOpen(true);
-                  }}
-                  onFocus={() => setIsOpen(true)}
+                <ComboBoxInput
                   className="w-full pl-10 pr-10 py-2 border rounded-lg focus:outline-none focus:ring-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   placeholder="Search frameworks..."
                   style={{
@@ -50,28 +54,24 @@ const AutoComplete: React.FC<AutoCompleteProps> = () => {
                     '--tw-ring-color': color
                   } as React.CSSProperties}
                 />
-                {query && (
-                  <button
-                    onClick={() => {
-                      setQuery('');
-                      setIsOpen(false);
-                    }}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                <div
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 w-6 h-6"
+                  aria-label="Toggle suggestions"
+                >
+                  <ComboBoxButton />
+                  <span
+                    className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                    aria-hidden="true"
                   >
-                    <X className="h-5 w-5 text-gray-400" />
-                  </button>
-                )}
+                    ▼
+                  </span>
+                </div>
               </div>
-              
-              {isOpen && suggestions.length > 0 && (
-                <div className="absolute w-full mt-1 bg-white dark:bg-gray-700 rounded-lg shadow-lg border dark:border-gray-600 max-h-60 overflow-auto">
-                  {suggestions.map((suggestion, index) => (
-                    <button
-                      key={index}
-                      onClick={() => {
-                        setQuery(suggestion);
-                        setIsOpen(false);
-                      }}
+              <ComboBoxPopover className="mt-1 bg-white dark:bg-gray-700 rounded-lg shadow-lg border dark:border-gray-600 max-h-60 overflow-auto">
+                <ComboBoxListBox>
+                  {suggestions.map((suggestion) => (
+                    <ComboBoxListItem
+                      key={suggestion}
                       className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-white"
                       style={{
                         '--tw-bg-opacity': '0.1',
@@ -83,11 +83,11 @@ const AutoComplete: React.FC<AutoCompleteProps> = () => {
                       } as React.CSSProperties}
                     >
                       {suggestion}
-                    </button>
+                    </ComboBoxListItem>
                   ))}
-                </div>
-              )}
-            </div>
+                </ComboBoxListBox>
+              </ComboBoxPopover>
+            </ComboBox>
           ))}
         </div>
       </div>
@@ -97,12 +97,29 @@ const AutoComplete: React.FC<AutoCompleteProps> = () => {
         <h3 className="text-lg font-medium mb-4 dark:text-white">Usage</h3>
         <pre className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
           <code className="text-sm text-gray-800 dark:text-gray-200">
-{`<AutoComplete
-  options={options}
-  value={value}
-  onChange={setValue}
-  placeholder="Search..."
-/>`}
+{`const [selectedItem, setSelectedItem] = useState<string | undefined>(undefined);
+const [isOpen, setIsOpen] = useState(false);
+
+<ComboBox
+  selectedKey={selectedItem}
+  onSelectionChange={(key) => {
+    setSelectedItem(key as string);
+    setIsOpen(false);
+  }}
+  onOpenChange={setIsOpen}
+>
+  <ComboBoxInput placeholder="Search..." />
+  <ComboBoxButton aria-label="Toggle suggestions">
+    <span className={\`transition-transform \${isOpen ? 'rotate-180' : ''}\`}>▼</span>
+  </ComboBoxButton>
+  <ComboBoxPopover>
+    <ComboBoxListBox>
+      {options.map((option) => (
+        <ComboBoxListItem key={option}>{option}</ComboBoxListItem>
+      ))}
+    </ComboBoxListBox>
+  </ComboBoxPopover>
+</ComboBox>`}
           </code>
         </pre>
       </div>

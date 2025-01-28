@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
+import { useState } from 'react';
 
 const Pagination = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -127,37 +127,6 @@ const Pagination = () => {
             <ChevronRight className="h-5 w-5" />
           </button>
         </nav>
-      </div>
-
-      {/* Usage */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg">
-        <h3 className="text-lg font-medium mb-4 dark:text-white">Usage</h3>
-        <pre className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
-          <code className="text-sm text-gray-800 dark:text-gray-200">
-{`// Basic Pagination
-<Pagination
-  currentPage={page}
-  totalPages={10}
-  onPageChange={setPage}
-/>
-
-// Simple Pagination
-<Pagination
-  type="simple"
-  currentPage={page}
-  totalPages={10}
-  onPageChange={setPage}
-/>
-
-// Compact Pagination
-<Pagination
-  type="compact"
-  currentPage={page}
-  totalPages={10}
-  onPageChange={setPage}
-/>`}
-          </code>
-        </pre>
       </div>
     </div>
   );

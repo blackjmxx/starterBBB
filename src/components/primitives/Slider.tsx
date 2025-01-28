@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { usePalette } from '@/context/PaletteContext';
 import { Volume2, VolumeX } from 'lucide-react';
-  import { usePalette } from '@/context/PaletteContext';
+import React, { useState } from 'react';
 
 interface SliderProps {
   colors: string[];
@@ -143,44 +143,6 @@ const Slider: React.FC<SliderProps> = () => {
         </div>
       </div>
 
-      {/* Usage */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg">
-        <h3 className="text-lg font-medium mb-4 dark:text-white">Usage</h3>
-        <pre className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
-          <code className="text-sm text-gray-800 dark:text-gray-200">
-{`// Basic Slider
-<Slider
-  value={value}
-  onChange={setValue}
-  min={0}
-  max={100}
-/>
-
-// Range Slider
-<RangeSlider
-  value={[min, max]}
-  onChange={setRange}
-  min={0}
-  max={100}
-/>
-
-// With Icons
-<Slider
-  value={volume}
-  onChange={setVolume}
-  startIcon={<VolumeXIcon />}
-  endIcon={<Volume2Icon />}
-/>
-
-// Custom Color
-<Slider
-  value={value}
-  onChange={setValue}
-  color="success"
-/>`}
-          </code>
-        </pre>
-      </div>
     </div>
   );
 };

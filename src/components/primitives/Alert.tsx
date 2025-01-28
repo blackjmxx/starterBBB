@@ -1,9 +1,8 @@
 'use client';
 
-import React from 'react';
-import { Alert } from '@/components/ui/Alert';
+import { Alert as AlertUI } from '@/components/ui/alert';
 
-const AlertDemo = () => {
+const Alert = () => {
   const variants = [
     {
       variant: 'success' as const,
@@ -31,7 +30,7 @@ const AlertDemo = () => {
     <div className="space-y-8">
       <div className="grid grid-cols-1 gap-4">
         {variants.map((variant) => (
-          <Alert
+          <AlertUI
             key={variant.variant}
             variant={variant.variant}
             title={variant.title}
@@ -58,4 +57,4 @@ const AlertDemo = () => {
   );
 };
 
-export default AlertDemo;
+export default Alert;

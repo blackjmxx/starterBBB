@@ -1,4 +1,4 @@
-import { DataGrid } from '@/components/ui/DataGrid';
+import { DataGrid } from '@/components/ui/dataGrid';
 
 const DataGridDemo = () => {
   // Les données et colonnes de test peuvent être définies ici ou passées en props

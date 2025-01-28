@@ -1,6 +1,6 @@
-import React from 'react';
-import { CheckCircle } from 'lucide-react';
 import { usePalette } from '@/context/PaletteContext';
+import { CheckCircle } from 'lucide-react';
+import React from 'react';
 
 const Progress = () => {
   const { colors } = usePalette();
@@ -205,39 +205,6 @@ const Progress = () => {
             </div>
           ))}
         </div>
-      </div>
-
-      {/* Usage */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg">
-        <h3 className="text-lg font-medium mb-4 dark:text-white">Usage</h3>
-        <pre className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
-          <code className="text-sm text-gray-800 dark:text-gray-200">
-{`// Linear Progress
-<Progress value={75} />
-
-// Indeterminate Progress
-<Progress indeterminate />
-
-// With Buffer
-<Progress
-  value={45}
-  buffer={65}
-/>
-
-// Steps Progress
-<Progress
-  type="steps"
-  steps={4}
-  currentStep={2}
-/>
-
-// Circular Progress
-<Progress
-  type="circular"
-  value={65}
-/>`}
-          </code>
-        </pre>
       </div>
     </div>
   );

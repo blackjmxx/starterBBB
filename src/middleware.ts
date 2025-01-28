@@ -7,13 +7,13 @@ export function middleware(request: NextRequest) {
                      request.nextUrl.pathname.startsWith('/register') ||
                      request.nextUrl.pathname.startsWith('/forgot-password');
 
-  if (!isAuthenticated && !isAuthPage) {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
+  // if (!isAuthenticated && !isAuthPage) {
+  //   return NextResponse.redirect(new URL('/login', request.url));
+  // }
 
-  if (isAuthenticated && isAuthPage) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
-  }
+  // if (isAuthenticated && isAuthPage) {
+  //   return NextResponse.redirect(new URL('/dashboard', request.url));
+  // }
 
   return NextResponse.next();
 }

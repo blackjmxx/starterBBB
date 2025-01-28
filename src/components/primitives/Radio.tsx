@@ -82,34 +82,6 @@ const Radio: React.FC<RadioProps> = () => {
           ))}
         </div>
       </div>
-
-      {/* Usage */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg">
-        <h3 className="text-lg font-medium mb-4 dark:text-white">Usage</h3>
-        <pre className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
-          <code className="text-sm text-gray-800 dark:text-gray-200">
-{`// Basic Radio
-<Radio
-  value={value}
-  onChange={setValue}
-/>
-
-// With Color
-<Radio
-  color="primary"
-  value={value}
-  onChange={setValue}
-/>
-
-// With Size
-<Radio
-  size="lg"
-  value={value}
-  onChange={setValue}
-/>`}
-          </code>
-        </pre>
-      </div>
     </div>
   );
 };

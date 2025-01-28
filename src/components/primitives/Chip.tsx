@@ -1,19 +1,20 @@
-import { Check, AlertCircle, Clock } from 'lucide-react';
-import { Chip } from '@/components/ui/chip';
+import { Tag, TagGroup } from '@/aria-component/tag-group';
+import { AlertCircle, Check, Clock, X } from 'lucide-react';
+import { useState } from 'react';
 
-const ChipDemo = () => {
-  const variants = [
-    { type: 'filled', label: 'Filled' },
-    { type: 'outlined', label: 'Outlined' },
-    { type: 'soft', label: 'Soft' }
-  ];
+const Chip = () => {
+  const [tags, setTags] = useState([
+    { id: '1', label: 'Filled', type: 'filled' },
+    { id: '2', label: 'Outlined', type: 'outlined' },
+    { id: '3', label: 'Soft', type: 'soft' }
+  ]);
 
   const colors = [
-    { name: 'default' },
-    { name: 'primary' },
-    { name: 'success' },
-    { name: 'warning' },
-    { name: 'error' }
+    { name: 'default', class: 'bg-gray-100 text-gray-800' },
+    { name: 'primary', class: 'bg-blue-100 text-blue-800' },
+    { name: 'success', class: 'bg-green-100 text-green-800' },
+    { name: 'warning', class: 'bg-yellow-100 text-yellow-800' },
+    { name: 'error', class: 'bg-red-100 text-red-800' }
   ];
 
   const statuses = [
@@ -22,63 +23,68 @@ const ChipDemo = () => {
     { label: 'Error', icon: AlertCircle, color: 'error' }
   ];
 
+  const handleRemove = (id: string) => {
+    setTags(tags.filter(tag => tag.id !== id));
+  };
+
   return (
     <div className="space-y-8">
       {/* Variants */}
       <div className="space-y-4">
         <h3 className="text-lg font-medium dark:text-white">Variants</h3>
-        <div className="flex flex-wrap gap-4">
-          {variants.map((variant) => (
-            <Chip key={variant.type} variant={variant.type}>
-              {variant.label}
-            </Chip>
+        <TagGroup>
+          {tags.map((tag) => (
+            <Tag key={tag.id} className={`${tag.type === 'outlined' ? 'border border-gray-300' : ''} ${tag.type === 'soft' ? 'bg-gray-100' : ''}`}>
+              {tag.label}
+            </Tag>
           ))}
-        </div>
+        </TagGroup>
       </div>
 
       {/* Colors */}
       <div className="space-y-4">
         <h3 className="text-lg font-medium dark:text-white">Colors</h3>
-        <div className="flex flex-wrap gap-4">
+        <TagGroup>
           {colors.map((color) => (
-            <Chip key={color.name} color={color.name} variant="filled">
+            <Tag key={color.name} className={color.class}>
               {color.name.charAt(0).toUpperCase() + color.name.slice(1)}
-            </Chip>
+            </Tag>
           ))}
-        </div>
+        </TagGroup>
       </div>
 
       {/* With Icon */}
       <div className="space-y-4">
         <h3 className="text-lg font-medium dark:text-white">With Icon</h3>
-        <div className="flex flex-wrap gap-4">
+        <TagGroup>
           {statuses.map((status) => (
-            <Chip
-              key={status.label}
-              icon={status.icon}
-              color={status.color}
-              variant="filled"
-            >
+            <Tag key={status.label} className={colors.find(c => c.name === status.color)?.class}>
+              <status.icon className="w-4 h-4 mr-1" />
               {status.label}
-            </Chip>
+            </Tag>
           ))}
-        </div>
+        </TagGroup>
       </div>
 
       {/* Deletable */}
       <div className="space-y-4">
         <h3 className="text-lg font-medium dark:text-white">Deletable</h3>
-        <div className="flex flex-wrap gap-4">
-          {variants.map((variant) => (
-            <Chip
-              key={variant.type}
-              variant={variant.type}
-              onDelete={() => {}}
+        <TagGroup>
+          {tags.map((tag) => (
+            <Tag 
+              key={tag.id} 
+              className={`${tag.type === 'outlined' ? 'border border-gray-300' : ''} ${tag.type === 'soft' ? 'bg-gray-100' : ''} flex items-center`}
             >
-              {variant.label}
-            </Chip>
+              {tag.label}
+              <button
+                onClick={() => handleRemove(tag.id)}
+                className="ml-1 p-1 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </Tag>
           ))}
-        </div>
+        </TagGroup>
       </div>
 
       {/* Usage */}
@@ -86,29 +92,39 @@ const ChipDemo = () => {
         <h3 className="text-lg font-medium mb-4 dark:text-white">Usage</h3>
         <pre className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
           <code className="text-sm text-gray-800 dark:text-gray-200">
-{`// Basic Chip
-<Chip>Basic</Chip>
+{`import { TagGroup, Tag } from '@/aria-component/tag-group';
 
-// Colored Chip
-<Chip color="primary" variant="filled">
-  Primary
-</Chip>
+// Basic Tag
+<TagGroup>
+  <Tag>Basic</Tag>
+</TagGroup>
+
+// Colored Tag
+<TagGroup>
+  <Tag className="bg-blue-100 text-blue-800">
+    Primary
+  </Tag>
+</TagGroup>
 
 // With Icon
-<Chip
-  icon={CheckIcon}
-  color="success"
->
-  Completed
-</Chip>
+<TagGroup>
+  <Tag className="bg-green-100 text-green-800">
+    <CheckIcon className="w-4 h-4 mr-1" />
+    Completed
+  </Tag>
+</TagGroup>
 
 // Deletable
-<Chip
-  onDelete={() => {}}
-  color="error"
->
-  Delete me
-</Chip>`}
+<TagGroup>
+  {tags.map((tag) => (
+    <Tag key={tag.id} className="flex items-center">
+      {tag.label}
+      <button onClick={() => handleRemove(tag.id)} className="ml-1 p-1">
+        <X className="w-3 h-3" />
+      </button>
+    </Tag>
+  ))}
+</TagGroup>`}
           </code>
         </pre>
       </div>
@@ -116,4 +132,4 @@ const ChipDemo = () => {
   );
 };
 
-export default ChipDemo;
+export default Chip;

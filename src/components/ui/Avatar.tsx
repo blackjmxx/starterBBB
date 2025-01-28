@@ -58,12 +58,12 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
             onError={() => setHasError(true)}
           />
         ) : initials ? (
-          <span className="flex h-full w-full items-center justify-center font-medium">
+          <p className="flex h-full w-full items-center justify-center font-medium">
             {initials}
-          </span>
+          </p>
         ) : (
           <div className="flex h-full w-full items-center justify-center">
-            {Icon ? <Icon className="h-1/2 w-1/2" /> : <User className="h-1/2 w-1/2" />}
+            {Icon ? <Icon className="h-1/2 w-1/2 dark:text-gray-200" /> : <User className="h-1/2 w-1/2 dark:text-gray-200" />}
           </div>
         )}
       </div>

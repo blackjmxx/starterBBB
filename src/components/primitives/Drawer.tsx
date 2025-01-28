@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { Settings, Bell, User, LogOut } from 'lucide-react';
-import { Drawer } from '@/components/ui/Drawer';
+import { Drawer } from '@/components/ui/drawer';
 
 const DrawerDemo = () => {
   const [openDrawer, setOpenDrawer] = useState<string | null>(null);

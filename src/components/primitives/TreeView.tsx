@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ChevronRight, ChevronDown, Folder, File } from 'lucide-react';
+import { ChevronDown, ChevronRight, File, Folder } from 'lucide-react';
+import { useState } from 'react';
 
 interface TreeNode {
   id: string;
@@ -126,45 +126,6 @@ const TreeView = () => {
             <span className="text-sm text-blue-600 dark:text-blue-400">Selected Item</span>
           </div>
         </div>
-      </div>
-
-      {/* Usage */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg">
-        <h3 className="text-lg font-medium mb-4 dark:text-white">Usage</h3>
-        <pre className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
-          <code className="text-sm text-gray-800 dark:text-gray-200">
-{`// Basic Tree View
-<TreeView
-  data={[
-    {
-      id: '1',
-      label: 'Parent',
-      children: [
-        { id: '1.1', label: 'Child' }
-      ]
-    }
-  ]}
-/>
-
-// With Custom Icons
-<TreeView
-  data={data}
-  icons={{
-    folder: CustomFolderIcon,
-    file: CustomFileIcon
-  }}
-/>
-
-// With Selection
-<TreeView
-  data={data}
-  selectable
-  onSelect={(selectedIds) => {
-    console.log(selectedIds);
-  }}
-/>`}
-          </code>
-        </pre>
       </div>
     </div>
   );

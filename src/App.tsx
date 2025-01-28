@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Navigate, Route, BrowserRouter as Router, Routes, useLocation } from 'react-router-dom';
+import Loader from './components/Loader';
+import colorConfig from './config/colors.json';
+import { PaletteProvider } from './context/PaletteContext';
+import { ThemeProvider } from './context/ThemeContext';
+import Dashboard from './pages/Dashboard';
+import ForgotPassword from './pages/ForgotPassword';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import ForgotPassword from './pages/ForgotPassword';
-import Dashboard from './pages/Dashboard';
-import Loader from './components/Loader';
-import { ThemeProvider } from './context/ThemeContext';
-import { PaletteProvider } from './context/PaletteContext';
-import colorConfig from './config/colors.json';
 import { ColorConfig } from './types/colors';
 
 const AppContent: React.FC = () => {

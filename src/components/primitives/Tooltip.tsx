@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import { Info } from 'lucide-react';
+import { useState } from 'react';
 
 const Tooltip = () => {
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
@@ -86,34 +86,6 @@ const Tooltip = () => {
             </div>
           )}
         </div>
-      </div>
-
-      {/* Usage */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg">
-        <h3 className="text-lg font-medium mb-4 dark:text-white">Usage</h3>
-        <pre className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
-          <code className="text-sm text-gray-800 dark:text-gray-200">
-{`// Basic Tooltip
-<Tooltip content="Tooltip text">
-  <button>Hover me</button>
-</Tooltip>
-
-// With Position
-<Tooltip
-  content="Tooltip text"
-  position="top"
->
-  <button>Hover me</button>
-</Tooltip>
-
-// With HTML Content
-<Tooltip
-  content={<div>Custom content</div>}
->
-  <button>Hover me</button>
-</Tooltip>`}
-          </code>
-        </pre>
       </div>
     </div>
   );

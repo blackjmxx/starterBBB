@@ -6,11 +6,11 @@ import { X, LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const colors = {
-  default: { bg: 'bg-gray-100', text: 'text-gray-800', border: 'border-gray-300', soft: 'bg-gray-50' },
-  primary: { bg: 'bg-blue-100', text: 'text-blue-800', border: 'border-blue-300', soft: 'bg-blue-50' },
-  success: { bg: 'bg-green-100', text: 'text-green-800', border: 'border-green-300', soft: 'bg-green-50' },
-  warning: { bg: 'bg-yellow-100', text: 'text-yellow-800', border: 'border-yellow-300', soft: 'bg-yellow-50' },
-  error: { bg: 'bg-red-100', text: 'text-red-800', border: 'border-red-300', soft: 'bg-red-50' }
+  default: { bg: 'bg-gray-100', text: 'text-gray-800', border: 'border-gray-300', soft: 'bg-gray-50', outlined: 'text-white' },
+  primary: { bg: 'bg-blue-100', text: 'text-blue-800', border: 'border-blue-300', soft: 'bg-blue-50', outlined: 'text-blue-600' },
+  success: { bg: 'bg-green-100', text: 'text-green-800', border: 'border-green-300', soft: 'bg-green-50', outlined: 'text-green-600' },
+  warning: { bg: 'bg-yellow-100', text: 'text-yellow-800', border: 'border-yellow-300', soft: 'bg-yellow-50', outlined: 'text-yellow-600' },
+  error: { bg: 'bg-red-100', text: 'text-red-800', border: 'border-red-300', soft: 'bg-red-50', outlined: 'text-red-600' }
 };
 
 const chipVariants = cva(
@@ -37,22 +37,25 @@ const chipVariants = cva(
   }
 );
 
-export interface ChipProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof chipVariants> {
+type ChipColor = keyof typeof colors;
+type ChipVariant = 'filled' | 'outlined' | 'soft';
+
+export interface ChipProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'color'> {
+  variant?: ChipVariant;
+  color?: ChipColor;
   icon?: LucideIcon;
   onDelete?: () => void;
 }
 
 const Chip = React.forwardRef<HTMLDivElement, ChipProps>(
   ({ className, variant = 'filled', color = 'default', icon: Icon, onDelete, children, ...props }, ref) => {
-    const colorStyles = colors[color as keyof typeof colors];
+    const colorStyles = colors[color];
     const baseStyles = cn(
       chipVariants({ variant, color }),
       variant === 'filled' && colorStyles.bg,
-      variant === 'outlined' && colorStyles.border,
+      variant === 'outlined' && [colorStyles.border, colorStyles.outlined],
       variant === 'soft' && colorStyles.soft,
-      colorStyles.text,
+      variant !== 'outlined' && colorStyles.text,
       onDelete && 'pr-2',
       className
     );

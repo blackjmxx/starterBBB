@@ -11,8 +11,8 @@ const PaletteContext = createContext<PaletteContextType>({
   setPalette: () => {}
 });
 
-export function PaletteProvider({ children }: { children: React.ReactNode }) {
-  const [colors, setColors] = useState<string[]>([
+export function PaletteProvider({ children, initialColors }: { children: React.ReactNode, initialColors?: string[] }) {
+  const [colors, setColors] = useState<string[]>(initialColors || [
     '#FF0000',
     '#00FF00',
     '#0000FF',

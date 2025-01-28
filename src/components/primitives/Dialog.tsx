@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AlertTriangle, Info, CheckCircle } from 'lucide-react';
-import { Dialog } from '@/components/ui/Dialog';
+import { Dialog } from '@/components/ui/dialog';
 
 const DialogDemo = () => {
   const [openDialog, setOpenDialog] = useState<string | null>(null);
@@ -49,7 +49,7 @@ const DialogDemo = () => {
             <button
               key={variant.type}
               onClick={() => setOpenDialog(variant.type)}
-              className="px-4 py-2 bg-white dark:bg-gray-700 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 text-sm font-medium  text-gray-500"
+              className="px-4 py-2 bg-white dark:bg-gray-700 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 text-sm font-medium dark:text-white"
             >
               Open {variant.type} dialog
             </button>

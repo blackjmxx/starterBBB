@@ -1,5 +1,4 @@
-import React from 'react';
-import { Check, X, AlertTriangle, Clock } from 'lucide-react';
+import { AlertTriangle, Check, Clock, X } from 'lucide-react';
 
 const Timeline = () => {
   const events = [
@@ -129,44 +128,6 @@ const Timeline = () => {
             </div>
           ))}
         </div>
-      </div>
-
-      {/* Usage */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg">
-        <h3 className="text-lg font-medium mb-4 dark:text-white">Usage</h3>
-        <pre className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
-          <code className="text-sm text-gray-800 dark:text-gray-200">
-{`// Basic Timeline
-<Timeline>
-  <TimelineItem
-    title="Event Title"
-    description="Event description"
-    date="2 hours ago"
-    status="success"
-  />
-</Timeline>
-
-// Alternating Timeline
-<Timeline variant="alternating">
-  <TimelineItem
-    title="Event Title"
-    description="Event description"
-    date="2 hours ago"
-    status="success"
-  />
-</Timeline>
-
-// Compact Timeline
-<Timeline variant="compact">
-  <TimelineItem
-    title="Event Title"
-    description="Event description"
-    date="2 hours ago"
-    status="success"
-  />
-</Timeline>`}
-          </code>
-        </pre>
       </div>
     </div>
   );

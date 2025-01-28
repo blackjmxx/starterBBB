@@ -1,0 +1,22 @@
+/* Dashboard Layouts */
+.layout-default {
+  /* Default layout styles */
+}
+
+.layout-compact {
+  /* Compact layout styles */
+  font-size: 0.9em;
+}
+
+.layout-compact .flex-1 {
+  padding: 0.5rem !important;
+}
+
+.layout-expanded {
+  /* Expanded layout styles */
+  font-size: 1.1em;
+}
+
+.layout-expanded .flex-1 {
+  padding: 1.5rem !important;
+}

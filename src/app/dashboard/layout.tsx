@@ -1,8 +1,9 @@
 'use client';
-import { DashboardSidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/Header';
-import { useState } from 'react';
+import { DashboardSidebar } from '@/components/dashboard/Sidebar';
 import { usePalette } from '@/context/PaletteContext';
+import '@/styles/dashboard.css';
+import { useState } from 'react';
 
 function generateRandomColor(): string {
   return '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
@@ -19,6 +20,7 @@ export default function DashboardLayout({
 }) {
   const [colorCount, setColorCount] = useState(6);
   const { colors, setPalette } = usePalette();
+  const [layout, setLayout] = useState('default');
 
   const regeneratePalette = () => {
     const newPalette = generateRandomPalette(colorCount);
@@ -26,12 +28,12 @@ export default function DashboardLayout({
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+    <div className={`flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors layout-${layout}`}>
       <div className="flex flex-1">
         <DashboardSidebar />
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col overflow-hidden">
           <DashboardHeader />
-          <main className="flex-1 p-8">
+          <main className="flex-1 p-4 -mt-4 overflow-auto">
             {children}
           </main>
         </div>
@@ -61,6 +63,20 @@ export default function DashboardLayout({
               />
             ))}
           </div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium dark:text-white">Layout:</span>
+              <select
+                value={layout}
+                onChange={(e) => setLayout(e.target.value)}
+                className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg px-2 py-1"
+              >
+                <option value="default">Default</option>
+                <option value="compact">Compact</option>
+                <option value="expanded">Expanded</option>
+              </select>
+            </div>
+          </div>
           <button
             onClick={regeneratePalette}
             className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-gray-100 dark:text-white rounded-lg transition-colors"
@@ -71,4 +87,4 @@ export default function DashboardLayout({
       </div>
     </div>
   );
-} 
+}

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ChevronRight, ChevronLeft, Search } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import { useState } from 'react';
 
 const TransferList = () => {
   const [leftItems, setLeftItems] = useState([
@@ -172,27 +172,6 @@ const TransferList = () => {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Usage */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg">
-        <h3 className="text-lg font-medium mb-4 dark:text-white">Usage</h3>
-        <pre className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
-          <code className="text-sm text-gray-800 dark:text-gray-200">
-{`<TransferList
-  leftItems={leftItems}
-  rightItems={rightItems}
-  onTransfer={(newLeft, newRight) => {
-    setLeftItems(newLeft);
-    setRightItems(newRight);
-  }}
-  titles={{
-    left: 'Available',
-    right: 'Selected'
-  }}
-/>`}
-          </code>
-        </pre>
       </div>
     </div>
   );
