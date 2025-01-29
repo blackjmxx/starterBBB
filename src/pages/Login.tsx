@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
 import { Coffee } from 'lucide-react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FieldError, Input, Label, TextField } from '../aria-component/field';
+import { Form } from '../aria-component/form';
 import { usePalette } from '../context/PaletteContext';
 import { useTheme } from '../context/ThemeContext';
-import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -17,7 +19,6 @@ const Login: React.FC = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    alert('test');
     if (email === 'test@test.com' && password === 'password') {
       localStorage.setItem('isAuthenticated', 'true');
       navigate('/dashboard');
@@ -33,44 +34,32 @@ const Login: React.FC = () => {
             Connexion à Nkunu
           </h2>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
+        <Form onSubmit={handleLogin} className="mt-8 space-y-6">
           <div className="space-y-4">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                Email
-              </label>
-              <input
-                id="email"
+            <TextField>
+              <Label>Email</Label>
+              <Input
                 type="email"
                 required
-                className="mt-1 block w-full px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2"
-                style={{ 
-                  borderColor: primaryColor,
-                  focusRingColor: primaryColor 
-                }}
                 placeholder="vous@exemple.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                style={{ borderColor: primaryColor }}
               />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                Mot de passe
-              </label>
-              <input
-                id="password"
+              <FieldError />
+            </TextField>
+            <TextField>
+              <Label>Mot de passe</Label>
+              <Input
                 type="password"
                 required
-                className="mt-1 block w-full px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2"
-                style={{ 
-                  borderColor: primaryColor,
-                  focusRingColor: primaryColor 
-                }}
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                style={{ borderColor: primaryColor }}
               />
-            </div>
+              <FieldError />
+            </TextField>
           </div>
 
           <div className="flex items-center justify-between">
@@ -95,7 +84,7 @@ const Login: React.FC = () => {
           >
             Se connecter
           </button>
-        </form>
+        </Form>
       </div>
     </div>
   );

@@ -1,9 +1,11 @@
 import {
   Lightbulb,
   LogOut,
+  Moon,
   SearchIcon,
   Settings,
   ShieldCheck,
+  Sun,
   UserCircle
 } from 'lucide-react';
 import React from 'react';
@@ -31,8 +33,11 @@ import {
 import { Modal } from '../../aria-component/modal';
 import { NotificationBadge } from '../../aria-component/notification-badge';
 import { Strong } from '../../aria-component/text';
+import { useTheme } from '../../context/ThemeContext';
 
 export const DashboardHeader: React.FC = () => {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <div className="flex w-full flex-col">
       <header className="flex h-14 items-center px-2 md:px-6 lg:px-8">
@@ -118,6 +123,18 @@ export const DashboardHeader: React.FC = () => {
           </div>
 
           <div className="ml-auto flex items-center gap-3">
+            <Button
+              isIconOnly
+              size="lg"
+              variant="plain"
+              className="group"
+              onPress={toggleTheme}
+              aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+            >
+              <Icon>
+                {theme === 'light' ? <Moon className="text-muted group-hover:text-foreground" /> : <Sun className="text-muted group-hover:text-foreground" />}
+              </Icon>
+            </Button>
             <Button
               variant="outline"
               className="justify-start bg-white font-normal text-muted dark:bg-transparent"
@@ -314,5 +331,3 @@ const HamburgerMenu: React.FC = () => {
     </DialogTrigger>
   );
 };
-
-// Removed default export
