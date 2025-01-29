@@ -1,31 +1,57 @@
 'use client';
-import { usePalette } from '@/context/PaletteContext';
+
 import BarChart from '@/components/BarChart';
 import DonutChart from '@/components/DonutChart';
 import WorldMap from '@/components/WorldMap';
+import { Stat } from '@/components/dashboard/Stat';
+import { usePalette } from '@/context/PaletteContext';
+
+interface Transaction {
+  name: string;
+  amount: string;
+}
+
+interface Ticket {
+  email: string;
+  issue: string;
+  status: string;
+  statusColor: string;
+}
 
 export default function DashboardPage() {
   const { colors } = usePalette();
   const primaryColor = colors[2];
 
+  const stats = [
+    { title: 'Current MRR', value: '$12.4k', color: colors[2] },
+    { title: 'Current Customers', value: '16,601', color: colors[3] },
+    { title: 'Active Customers', value: '33%', color: colors[4] },
+    { title: 'Churn Rate', value: '2%', color: colors[5] }
+  ];
+
+  const transactions: Transaction[] = [
+    { name: 'Banking', amount: '$1,544' },
+    { name: 'Marketing', amount: '$442' },
+    { name: 'Development', amount: '$1,821' }
+  ];
+
+  const tickets: Ticket[] = [
+    { email: 'sarah.smith@example.com', issue: 'Login Issue', status: 'Open', statusColor: 'green' },
+    { email: 'john.doe@example.com', issue: 'Billing Inquiry', status: 'Pending', statusColor: 'yellow' }
+  ];
+
   return (
     <div className="space-y-6">
       {/* Stats Grid */}
       <div className="grid grid-cols-4 gap-6">
-        {[
-          { title: 'Current MRR', value: '$12.4k', color: colors[2] },
-          { title: 'Current Customers', value: '16,601', color: colors[3] },
-          { title: 'Active Customers', value: '33%', color: colors[4] },
-          { title: 'Churn Rate', value: '2%', color: colors[5] }
-        ].map((stat, i) => (
-          <div
+        {stats.map((stat, i) => (
+          <Stat
             key={i}
-            className="p-6 rounded-xl text-white"
-            style={{ backgroundColor: stat.color }}
-          >
-            <h3 className="text-sm font-medium opacity-80">{stat.title}</h3>
-            <p className="text-2xl font-bold mt-2">{stat.value}</p>
-          </div>
+            title={stat.title}
+            value={stat.value}
+            color={stat.color}
+            variant="colored"
+          />
         ))}
       </div>
 
@@ -35,7 +61,7 @@ export default function DashboardPage() {
           <div className="flex justify-between items-center mb-4">
             <h3 className="font-medium dark:text-white">Trend</h3>
             <div className="flex items-center gap-4">
-              {colors.slice(0, 3).map((color, i) => (
+              {colors.slice(0, 3).map((color: string, i: number) => (
                 <div key={i} className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
                   <span className="text-sm dark:text-gray-200">{['MRR', 'One-time', 'Other'][i]}</span>
@@ -51,7 +77,7 @@ export default function DashboardPage() {
           <div className="flex justify-between items-center mb-4">
             <h3 className="font-medium dark:text-white">Sales Distribution</h3>
             <div className="flex items-center gap-4">
-              {colors.slice(0, 3).map((color, i) => (
+              {colors.slice(0, 3).map((color: string, i: number) => (
                 <div key={i} className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
                   <span className="text-sm dark:text-gray-200">{['Direct', 'Affiliate', 'Partner'][i]}</span>
@@ -73,11 +99,7 @@ export default function DashboardPage() {
             <button className="text-sm text-indigo-600 dark:text-indigo-400">View all</button>
           </div>
           <div className="space-y-3">
-            {[
-              { name: 'Banking', amount: '$1,544' },
-              { name: 'Marketing', amount: '$442' },
-              { name: 'Development', amount: '$1,821' }
-            ].map((item, i) => (
+            {transactions.map((item, i) => (
               <div key={i} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                 <span className="font-medium dark:text-white">{item.name}</span>
                 <span className="text-gray-600 dark:text-gray-300">{item.amount}</span>
@@ -94,10 +116,7 @@ export default function DashboardPage() {
             </select>
           </div>
           <div className="space-y-3">
-            {[
-              { email: 'sarah.smith@example.com', issue: 'Login Issue', status: 'Open', statusColor: 'green' },
-              { email: 'john.doe@example.com', issue: 'Billing Inquiry', status: 'Pending', statusColor: 'yellow' }
-            ].map((ticket, i) => (
+            {tickets.map((ticket, i) => (
               <div key={i} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                 <div>
                   <p className="text-sm font-medium dark:text-white">{ticket.email}</p>
@@ -117,7 +136,7 @@ export default function DashboardPage() {
         <div className="flex justify-between items-center mb-4">
           <h3 className="font-medium dark:text-white">Customer Demographics</h3>
           <div className="flex items-center gap-4">
-            {colors.slice(0, 2).map((color, i) => (
+            {colors.slice(0, 2).map((color: string, i: number) => (
               <div key={i} className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
                 <span className="text-sm dark:text-gray-200">{['Active', 'New'][i]}</span>
@@ -131,4 +150,4 @@ export default function DashboardPage() {
       </div>
     </div>
   );
-} 
+}
