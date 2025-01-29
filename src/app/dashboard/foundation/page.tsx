@@ -7,34 +7,39 @@ import {
   Alert,
   Badge,
   Chip,
-  DataGrid,
   Dialog,
   Drawer,
-  List,
-  Menu,
   Popover,
   Progress,
   Rating,
   Slider,
   Stepper,
-  Table,
   Tabs,
   Timeline,
   Tooltip,
-  TransferList,
   TreeView
 } from '@/components/primitives';
 import { usePalette } from '@/context/PaletteContext';
 import { useState } from 'react';
+import AuthenticationDemo from './AuthenticationDemo';
 import AutoCompleteDemo from './AutoCompleteDemo';
 import AvatarDemo from './AvatarDemo';
 import BreadcrumbsDemo from './BreadcrumbsDemo';
 import ButtonDemo from './ButtonDemo';
+import CardsDemo from './CardsDemo';
 import CheckboxDemo from './CheckboxDemo';
 import ClipboardDemo from './ClipboardDemo';
+import DatePickerDemo from './DatePickerDemo';
+import HeaderDemo from './HeaderDemo';
+import InputsDemo from './InputsDemo';
+import ListDemo from './ListDemo';
+import MenuDemo from './MenuDemo';
 import RadioDemo from './RadioDemo';
+import { SideBarDemo } from './SideBarDemo';
 import SwitchDemo from './SwitchDemo';
+import TableDemo from './TableDemo';
 import TextFieldDemo from './TextFieldDemo';
+import TransferListDemo from './TransferListDemo';
 
 export default function FoundationPage() {
   const { colors } = usePalette();
@@ -43,50 +48,55 @@ export default function FoundationPage() {
 
   const componentGroups = {
     'Dashboard Layouts': {
-      DefaultLayout,
-      SidebarLayout,
-      TopNavLayout
+      DefaultLayout: DefaultLayout,
+      SidebarLayout: SidebarLayout,
+      TopNavLayout: TopNavLayout
     },
     'Input Controls': {
-      ButtonDemo,
-      CheckboxDemo,
-      RadioDemo,
-      SwitchDemo,
-      TextFieldDemo,
-      AutoCompleteDemo,
-      Slider
+      ButtonDemo: ButtonDemo,
+      CheckboxDemo: CheckboxDemo,
+      RadioDemo: RadioDemo,
+      SwitchDemo: SwitchDemo,
+      TextFieldDemo: TextFieldDemo,
+      AutoCompleteDemo: AutoCompleteDemo,
+      Slider: Slider,
+      DatePickerDemo: DatePickerDemo,
+      InputsDemo: InputsDemo
     },
     'Data Display': {
-      Table,
-      DataGrid,
-      List,
-      Timeline,
-      TreeView
+      TableDemo: TableDemo,
+      ListDemo: ListDemo,
+      Timeline: Timeline,
+      TreeView: TreeView
     },
     'Navigation': {
-      BreadcrumbsDemo,
-      Menu,
-      Tabs,
-      Stepper
+      BreadcrumbsDemo: BreadcrumbsDemo,
+      HeaderDemo: HeaderDemo,
+      MenuDemo: MenuDemo,
+      Tabs: Tabs,
+      Stepper: Stepper,
+      SideBarDemo: SideBarDemo
     },
     'Feedback': {
-      Alert,
-      Dialog,
-      Drawer,
-      Progress,
-      Rating,
-      Tooltip
+      Alert: Alert,
+      Dialog: Dialog,
+      Drawer: Drawer,
+      Progress: Progress,
+      Rating: Rating,
+      Tooltip: Tooltip
     },
     'Elements': {
-      AvatarDemo,
-      Badge,
-      Chip,
-      Popover,
-      TransferList,
-      Accordion
+      AuthenticationDemo: AuthenticationDemo,
+      AvatarDemo: AvatarDemo,
+      Badge: Badge,
+      CardsDemo: CardsDemo,
+      Chip: Chip,
+      Popover: Popover,
+      TransferListDemo: TransferListDemo,
+      Accordion: Accordion
     },
     'Utilities': {
-      ClipboardDemo
+      ClipboardDemo: ClipboardDemo
     }
   };
 

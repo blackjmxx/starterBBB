@@ -1,47 +1,38 @@
-import { Metadata } from 'next';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Authentication',
-  description: 'Authentication pages for the application',
-};
+import { useEffect, useState } from 'react';
 
-interface AuthLayoutProps {
+export default function AuthLayout({
+  children,
+}: {
   children: React.ReactNode;
-}
+}) {
+  const [mounted, setMounted] = useState(false);
 
-export default function AuthLayout({ children }: AuthLayoutProps) {
+  // Avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
-    <div className="flex bg-gray-50 dark:bg-gray-900 transition-colors">
-      {/* Left side - Auth form */}
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
-        <div className="w-full max-w-md space-y-8">
-          {/* Logo */}
-          <div className="flex justify-center">
-            <img
-              src="https://devadory.com/wp-content/uploads/2024/02/Devadory-all_noir-e1706877474819.png"
-              alt="Logo"
-              sizes='100vw'
-              priority
-            />
-          </div>
-          {children}
-        </div>
+    <div className="flex min-h-screen">
+      {/* Left side - Login Form */}
+      <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+        {children}
       </div>
 
-      {/* Right side - Image */}
-      <div className="hidden lg:block relative w-0 flex-1">
-        <div className="absolute inset-0 bg-card">
-          <div className="absolute inset-0 flex items-center justify-center p-12">
-            <div className="max-w-xl">
-              <h2 className="mb-6">
-                Welcome to Flashcards App
-              </h2>
-              <p>
-                Your personalized learning journey starts here. Create, study, and master your flashcards with ease.
-              </p>
-            </div>
-          </div>
-        </div>
+      {/* Right side - Cover Image */}
+      <div className="relative hidden w-0 flex-1 lg:block">
+        <img
+          className="absolute inset-0 h-full w-full object-cover"
+          src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
+          alt="Background"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/0 dark:from-black/80 dark:to-black/20" />
       </div>
     </div>
   );

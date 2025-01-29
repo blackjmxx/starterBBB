@@ -14,10 +14,9 @@ import { TooltipTrigger } from './tooltip';
 import { composeTailwindRenderProps, focusVisibleOutline } from './utils';
 
 type Color = 'accent' | 'success' | 'destructive';
-
 type Size = 'sm' | 'md' | 'lg';
-
 type Variant = 'solid' | 'outline' | 'plain' | 'unstyle';
+type ButtonType = 'button' | 'iconOnly';
 
 export type ButtonStyleProps = {
   color?: Color;
@@ -64,7 +63,7 @@ const buttonVariants = {
   ],
 };
 
-const buttonSizes = {
+const buttonSizes: Record<Size, Record<ButtonType, string[]>> = {
   sm: {
     button: [
       'h-8 sm:h-7 text-sm/6 sm:text-xs/6 rounded-md',
@@ -79,25 +78,19 @@ const buttonSizes = {
     ],
   },
   md: {
-    // H: 44px, sm:36px
     button: [
       'px-[calc(theme(spacing[3.5])-var(--border-with,1px))]',
       'sm:px-[calc(theme(spacing[3])-var(--border-with,1px))]',
       'py-[calc(theme(spacing[2.5])-var(--border-with,1px))]',
       'sm:py-[calc(theme(spacing[1.5])-var(--border-with,1px))]',
-
       '[&_svg[data-ui=icon]:not([class*=size-])]:size-5',
       'sm:[&_svg[data-ui=icon]:not([class*=size-])]:size-4',
     ],
     iconOnly: [
       'p-[calc(theme(spacing[2.5])-var(--border-with,1px))]',
       'sm:p-[calc(theme(spacing[1.5])-var(--border-with,1px))]',
-
-      // 20+2x2=24px
       '[&_svg[data-ui=icon]:not([class*=size-])]:size-5',
       '[&_svg[data-ui=icon]]:m-0.5',
-
-      // 16+4x2=24px
       'sm:[&_svg[data-ui=icon]:not([class*=size-])]:size-4',
       'sm:[&_svg[data-ui=icon]]:m-1',
     ],
@@ -127,7 +120,7 @@ function getButtonStyle({
   }
 
   const buttonSize = size ?? 'md';
-  const buttonType = isIconOnly ? 'iconOnly' : 'button';
+  const buttonType: ButtonType = isIconOnly ? 'iconOnly' : 'button';
 
   const buttonBackground = {
     accent: [
@@ -143,6 +136,7 @@ function getButtonStyle({
       '[--btn-bg-hover:theme(colors.success/90%)]',
     ],
   };
+
   const buttonColor = {
     foreground: '[--btn-color:theme(colors.foreground)]',
     accent: '[--btn-color:theme(colors.accent)]',
@@ -171,88 +165,87 @@ function getButtonStyle({
   ];
 }
 
-export const Button = React.forwardRef<
-  HTMLButtonElement,
-  ButtonWithAsChildProps
->(function Button(props, ref) {
-  if (props.asChild) {
-    return (
-      <Slot className={twMerge(getButtonStyle(props))}>{props.children}</Slot>
+export const Button = React.forwardRef<HTMLButtonElement, ButtonWithAsChildProps>(
+  function Button(props, ref) {
+    if (props.asChild) {
+      return (
+        <Slot className={twMerge(getButtonStyle(props))}>{props.children}</Slot>
+      );
+    }
+
+    const {
+      asChild,
+      tooltip,
+      children,
+      isCustomPending,
+      pendingLabel,
+      size,
+      color,
+      variant = 'solid',
+      isIconOnly,
+      ...buttonProps
+    } = props;
+
+    const button = (
+      <RACButton
+        {...buttonProps}
+        ref={ref}
+        data-variant={variant}
+        className={composeTailwindRenderProps(props.className, [
+          getButtonStyle({ size, color, isIconOnly, variant }),
+          'disabled:opacity-50',
+          'data-[pending]:opacity-75',
+          !isCustomPending && 'data-[pending]:text-transparent',
+        ])}
+      >
+        {(renderProps) => {
+          return (
+            <>
+              {renderProps.isPending ? (
+                <>
+                  <SpinnerIcon
+                    aria-label={pendingLabel}
+                    className={twMerge(
+                      'absolute',
+                      'text-foreground',
+                      'group-data-[variant=solid]:text-zinc-300',
+                      isCustomPending
+                        ? 'group-data-[pending]:sr-only'
+                        : 'group-data-[pending]:flex',
+                    )}
+                  />
+                  <span
+                    className="contents"
+                    {...(renderProps.isPending && { 'aria-hidden': true })}
+                  >
+                    {typeof children === 'function'
+                      ? children(renderProps)
+                      : children}
+                  </span>
+                </>
+              ) : typeof children === 'function' ? (
+                children(renderProps)
+              ) : (
+                children
+              )}
+            </>
+          );
+        }}
+      </RACButton>
     );
-  }
 
-  const {
-    asChild,
-    tooltip,
-    children,
-    isCustomPending,
-    pendingLabel,
-    size,
-    color,
-    variant = 'solid',
-    isIconOnly,
-    ...buttonProps
-  } = props;
+    if (tooltip) {
+      return (
+        <TooltipTrigger>
+          {button}
+          {tooltip}
+        </TooltipTrigger>
+      );
+    }
 
-  const button = (
-    <RACButton
-      {...buttonProps}
-      ref={ref}
-      data-variant={variant}
-      className={composeTailwindRenderProps(props.className, [
-        getButtonStyle({ size, color, isIconOnly, variant }),
-        'disabled:opacity-50',
-        'data-[pending]:opacity-75',
-        !isCustomPending && 'data-[pending]:text-transparent',
-      ])}
-    >
-      {(renderProps) => {
-        return (
-          <>
-            {renderProps.isPending ? (
-              <>
-                <SpinnerIcon
-                  aria-label={pendingLabel}
-                  className={twMerge(
-                    'absolute',
-                    'text-foreground',
-                    'group-data-[variant=solid]:text-zinc-300',
-                    isCustomPending
-                      ? 'group-data-[pending]:sr-only'
-                      : 'group-data-[pending]:flex',
-                  )}
-                />
-                <span
-                  className="contents"
-                  {...(renderProps.isPending && { 'aria-hidden': true })}
-                >
-                  {typeof children === 'function'
-                    ? children(renderProps)
-                    : children}
-                </span>
-              </>
-            ) : typeof children === 'function' ? (
-              children(renderProps)
-            ) : (
-              children
-            )}
-          </>
-        );
-      }}
-    </RACButton>
-  );
-
-  if (tooltip) {
-    return (
-      <TooltipTrigger>
-        {button}
-        {tooltip}
-      </TooltipTrigger>
-    );
-  }
-
-  return button;
-});
+    return button;
+  },
+);
 
 export function ToggleButton(
   props: RACToggleButtonProps &

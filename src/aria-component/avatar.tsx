@@ -1,6 +1,6 @@
 import React from 'react';
-import { getInitials, getInitialsToken } from './get-initials';
 import { twMerge } from 'tailwind-merge';
+import { getInitials, getInitialsToken } from './get-initials';
 import { useImageLoadingStatus } from './hooks/use-image-loading-status';
 
 const AvatarContext = React.createContext<{
@@ -77,7 +77,9 @@ function InitialAvatar({
       }}
       fill="currentColor"
       viewBox="0 0 24 24"
-      className="font-medium text-white"
+      className={twMerge(
+        "font-bold text-gray-900 dark:text-gray-100"
+      )}
     >
       <text
         x="50%"
@@ -87,6 +89,7 @@ function InitialAvatar({
         textAnchor="middle"
         dy=".125em"
         fontSize="60%"
+        className="font-bold"
       >
         {initials}
       </text>

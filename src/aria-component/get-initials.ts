@@ -23,9 +23,21 @@ const tokens = [
 ];
 
 export function getInitials(name: string) {
-  return name
-    .split(/\s/)
-    .map((part) => part.substring(0, 1))
+  // Remplacer les apostrophes par des espaces
+  const cleanName = name.replace(/['']/, ' ');
+  
+  // Diviser sur les espaces et les tirets
+  const parts = cleanName.split(/[\s-]+/);
+  
+  return parts
+    .map((part) => {
+      // Ignorer les parties vides ou les articles/prépositions communes
+      if (!part || /^(de|du|des|le|la|les|l)$/i.test(part)) {
+        return '';
+      }
+      // Prendre le premier caractère, en gérant les caractères accentués
+      return part.normalize('NFD').replace(/[\u0300-\u036f]/g, '').charAt(0);
+    })
     .filter((v) => !!v)
     .slice(0, 2)
     .join('')
