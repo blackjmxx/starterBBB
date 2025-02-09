@@ -1,11 +1,14 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
+  swcMinify: false, // Désactivé pour l'environnement restreint
   images: {
     domains: ['images.unsplash.com', 'devadory.com'],
   },
-  webpack(config) {
+  webpack: (config) => {
+    // Configuration existante pour SVG
     config.module.rules.push({
       test: /\.svg$/,
       use: [{
@@ -23,6 +26,12 @@ const nextConfig = {
       }]
     });
 
+    // Ajout de l'alias pour SWC helpers
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@swc/helpers': require.resolve('@swc/helpers')
+    }
+
     return config;
   },
   ...(process.env.STATIC_EXPORT === 'true' && {
@@ -30,4 +39,4 @@ const nextConfig = {
   }),
 }
 
-module.exports = nextConfig 
+module.exports = nextConfig
