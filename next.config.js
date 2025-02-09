@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: false, // Désactivé pour l'environnement restreint
+  swcMinify: false,
+  experimental: {
+  },
   images: {
     domains: ['images.unsplash.com', 'devadory.com'],
   },
