@@ -1,5 +1,3 @@
-const defaultTheme = require('tailwindcss/defaultTheme');
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
