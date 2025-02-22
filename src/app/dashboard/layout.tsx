@@ -47,76 +47,87 @@ export default function DashboardLayout({
 
   return (
     // <AuthGuard>
-    <div className={`flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors layout-${layout}`}>
-      <div className="flex flex-1">
-        {/* Overlay pour fermer la sidebar sur mobile */}
-        {sidebarVisible && (
-          <div 
-            className="md:hidden fixed inset-0 bg-black/50 z-40"
-            onClick={() => setSidebarVisible(false)}
-          />
-        )}
-        <div className={`transition-all duration-300 ${
-          sidebarVisible 
-            ? 'md:w-64 w-64'
-            : 'w-0'
-        } ${
-          sidebarVisible && 'md:relative fixed inset-y-0 left-0 z-50'
-        } overflow-hidden`}>
-          <DashboardSidebar onClose={() => setSidebarVisible(false)} />
-        </div>
-        <div className="flex-1 flex flex-col overflow-hidden">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+      {/* Overlay pour mobile */}
+      {sidebarVisible && (
+        <div 
+          className="md:hidden fixed inset-0 bg-black/50 z-40"
+          onClick={() => setSidebarVisible(false)}
+        />
+      )}
+
+      {/* Conteneur principal avec flex */}
+      <div className="flex">
+        {/* Sidebar */}
+        <aside className={`
+          fixed md:relative top-0 left-0 z-50 
+          h-screen
+          bg-gray-800
+          transition-all duration-300
+          ${sidebarVisible ? 'w-64' : 'w-0 md:w-64'}
+        `}>
+          <div className={`
+            w-64 h-full
+            transition-transform duration-300
+            ${sidebarVisible ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+          `}>
+            <DashboardSidebar onClose={() => setSidebarVisible(false)} />
+          </div>
+        </aside>
+
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col min-h-screen">
           <DashboardHeader onToggleSidebar={() => setSidebarVisible(!sidebarVisible)} />
-          <main className="flex-1 p-4 -mt-4 overflow-auto">
+          <main className="flex-1 p-4 overflow-auto">
             {children}
           </main>
-        </div>
-      </div>
 
-      {/* Color Control Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex gap-4 items-center">
-            <label className="text-sm font-medium dark:text-white">Colors:</label>
-            <input
-              type="range"
-              min="2"
-              max="7"
-              value={colorCount}
-              onChange={(e) => setColorCount(parseInt(e.target.value))}
-              className="w-48"
-            />
-            <span className="text-sm dark:text-white">{colorCount}</span>
-          </div>
-          <div className="flex gap-4">
-            {colors.map((color, i) => (
-              <div
-                key={i}
-                className="w-8 h-8 rounded-lg"
-                style={{ backgroundColor: color }}
-              />
-            ))}
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium dark:text-white">Layout:</span>
-              <select
-                value={layout}
-                onChange={(e) => setLayout(e.target.value)}
-                className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg px-2 py-1"
+          {/* Color Control Bar */}
+          <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4">
+            <div className="max-w-7xl mx-auto flex items-center justify-between">
+              <div className="flex gap-4 items-center">
+                <label className="text-sm font-medium dark:text-white">Colors:</label>
+                <input
+                  type="range"
+                  min="2"
+                  max="7"
+                  value={colorCount}
+                  onChange={(e) => setColorCount(parseInt(e.target.value))}
+                  className="w-48"
+                />
+                <span className="text-sm dark:text-white">{colorCount}</span>
+              </div>
+              <div className="flex gap-4">
+                {colors.map((color, i) => (
+                  <div
+                    key={i}
+                    className="w-8 h-8 rounded-lg"
+                    style={{ backgroundColor: color }}
+                  />
+                ))}
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium dark:text-white">Layout:</span>
+                  <select
+                    value={layout}
+                    onChange={(e) => setLayout(e.target.value)}
+                    className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg px-2 py-1"
+                  >
+                    <option value="default">Default</option>
+                    <option value="compact">Compact</option>
+                    <option value="expanded">Expanded</option>
+                  </select>
+                </div>
+              </div>
+              <button
+                onClick={regeneratePalette}
+                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-gray-100 dark:text-white rounded-lg transition-colors"
               >
-                <option value="default">Default</option>
-                <option value="compact">Compact</option>
-                <option value="expanded">Expanded</option>
-              </select>
+                Generate Random Palette
+              </button>
             </div>
           </div>
-          <button
-            onClick={regeneratePalette}
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-gray-100 dark:text-white rounded-lg transition-colors"
-          >
-            Generate Random Palette
-          </button>
         </div>
       </div>
     </div>

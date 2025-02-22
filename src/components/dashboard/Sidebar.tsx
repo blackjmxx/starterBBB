@@ -6,6 +6,8 @@ import { BarChart3, ChevronLeft, ChevronRight, FileText, Layout, LayoutDashboard
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
+import { paths } from '@/routes/paths';
+import { ElementType } from 'react';
 
 interface Layout {
   name: string;
@@ -18,15 +20,15 @@ interface LayoutConfig {
 
 const typedLayoutConfig: LayoutConfig = layoutConfig;
 
-interface MenuItem {
-  icon: React.ElementType;
-  text: string;
-  href: string;
-  onClick?: () => void;
-}
-
 interface DashboardSidebarProps {
   onClose?: () => void;
+}
+
+interface MenuItem {
+  icon: ElementType;
+  title: string;
+  path: string;
+  onClick?: () => void;
 }
 
 export function DashboardSidebar({ onClose }: DashboardSidebarProps) {
@@ -48,31 +50,6 @@ export function DashboardSidebar({ onClose }: DashboardSidebarProps) {
     console.log('Layout changed to:', newLayout);
   };
 
-  const handleColorGeneration = () => {
-    // Generate a new color palette
-    const newColors = Array.from({ length: 6 }, () =>
-      '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')
-    );
-    setPalette(newColors);
-    console.log('New color palette generated:', newColors);
-  };
-
-  const mainMenuItems: MenuItem[] = [
-    { icon: LayoutDashboard, text: 'Overview', href: '/dashboard' },
-    { icon: Palette, text: 'Foundation', href: '/dashboard/foundation' },
-    { icon: BarChart3, text: 'Analytics', href: '/dashboard/analytics' },
-    { icon: Users, text: 'Users', href: '/dashboard/users' },
-    { icon: FileText, text: 'Reports', href: '/dashboard/reports' },
-    { icon: Settings, text: 'Settings', href: '/dashboard/settings' },
-    { icon: Shuffle, text: 'Generate Colors', href: '#', onClick: handleColorGeneration }
-  ];
-
-  const secondaryMenuItems: MenuItem[] = [
-    { icon: Layout, text: 'Design System', href: '/dashboard/design-system' },
-    { icon: FileText, text: 'Documentation', href: '/dashboard/docs' },
-    { icon: MessageSquare, text: 'Support', href: '/dashboard/support' }
-  ];
-
   const renderLayoutSelector = () => (
     <div className="flex items-center gap-3 px-3 py-2">
       <Layout className="h-5 w-5 text-gray-400" />
@@ -90,61 +67,65 @@ export function DashboardSidebar({ onClose }: DashboardSidebarProps) {
     </div>
   );
 
-  const userMenuItems: MenuItem[] = [
-    { icon: User, text: 'My profile', href: '/dashboard/profile' },
-    { icon: Settings, text: 'Settings', href: '/dashboard/user-settings' },
-    { icon: MessageSquare, text: 'Share feedback', href: '/dashboard/feedback' },
-    { icon: LogOut, text: 'Sign out', href: '#', onClick: handleSignOut }
-  ];
-
   const renderMenuItems = (items: MenuItem[]) => (
-    items.map((item: MenuItem) => (
+    items.map((item) => (
       item.onClick ? (
         <button
-          key={item.text}
+          key={item.title}
           onClick={item.onClick}
           className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors w-full text-left text-gray-400 hover:bg-gray-700/50 hover:text-white`}
         >
           <item.icon className="h-5 w-5" />
-          <span>{item.text}</span>
+          <span>{item.title}</span>
         </button>
       ) : (
         <Link
-          key={item.href}
-          href={item.href}
+          key={item.path}
+          href={item.path}
           className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-            pathname === item.href
+            pathname === item.path
               ? 'bg-gray-700 text-white'
               : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
           }`}
         >
           <item.icon className="h-5 w-5" />
-          <span>{item.text}</span>
+          <span>{item.title}</span>
         </Link>
       )
     ))
   );
 
-  return (
-    <aside className="bg-gray-800 h-screen sticky top-0 w-64 transition-all duration-300">
-      <div className="flex flex-col h-full relative">
-        {/* Bouton de fermeture - visible uniquement sur mobile */}
-        <button
-          onClick={onClose}
-          className="md:hidden absolute right-4 top-4 p-2 rounded-lg hover:bg-gray-700/50 text-gray-400 hover:text-white"
-        >
-          <X className="h-5 w-5" />
-        </button>
+  // Adapter les items du menu avec la nouvelle structure
+  const mainMenuItems = paths.dashboard.menu.main.map(item => ({
+    ...item,
+  }));
 
-        {/* Logo - ajusté pour laisser de l'espace pour le bouton de fermeture */}
-        <div className="p-4 pr-12">
+  const userMenuItems = paths.dashboard.menu.user.map(item => ({
+    ...item,
+    onClick: item.title === 'Sign out' ? handleSignOut : undefined,
+  }));
+
+  return (
+    <aside className="bg-gray-800 fixed top-0 bottom-0 left-0 w-64">
+      {/* Bouton de fermeture - Fixe */}
+      <button
+        onClick={onClose}
+        className="md:hidden absolute right-4 top-4 p-2 rounded-lg hover:bg-gray-700/50 text-gray-400 hover:text-white z-10"
+      >
+        <X className="h-5 w-5" />
+      </button>
+
+      {/* Zone scrollable - Tout le contenu */}
+      <div className="h-full overflow-y-auto">
+        {/* Logo */}
+        <div className="p-4">
           <span className="text-xl font-semibold text-white">Design System</span>
           <span className="text-sm text-gray-400 block mt-1">Layout: {currentLayout}</span>
           <span className="text-sm text-gray-400 block">Palette: {colors.join(', ')}</span>
         </div>
 
         {/* Main Navigation */}
-        <nav className="flex-1 p-4 space-y-1">
+        <nav className="p-4 space-y-1">
           {renderMenuItems(mainMenuItems)}
           {renderLayoutSelector()}
         </nav>
@@ -154,7 +135,7 @@ export function DashboardSidebar({ onClose }: DashboardSidebarProps) {
           <div className="mb-2 px-3 text-xs font-semibold text-gray-400 uppercase">
             Resources
           </div>
-          {renderMenuItems(secondaryMenuItems)}
+          {renderMenuItems([...paths.dashboard.menu.resources])}
         </div>
 
         {/* User Menu */}
