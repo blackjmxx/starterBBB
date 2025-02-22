@@ -35,13 +35,24 @@ import { NotificationBadge } from '../../aria-component/notification-badge';
 import { Strong } from '../../aria-component/text';
 import { useTheme } from '../../context/ThemeContext';
 
-export const DashboardHeader: React.FC = () => {
+interface DashboardHeaderProps {
+  onToggleSidebar: () => void;
+}
+
+export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
   const { theme, toggleTheme } = useTheme();
 
   return (
     <div className="flex w-full flex-col">
       <header className="flex h-14 items-center px-2 md:px-6 lg:px-8">
-        <HamburgerMenu />
+        <button
+          onClick={onToggleSidebar}
+          className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
 
         <div className="mx-auto flex w-full max-w-7xl">
           <div className="flex hidden space-x-4 lg:flex">
@@ -217,7 +228,7 @@ export const DashboardHeader: React.FC = () => {
       </header>
     </div>
   );
-};
+}
 
 const HamburgerMenu: React.FC = () => {
   return (

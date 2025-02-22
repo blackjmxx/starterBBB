@@ -2,7 +2,7 @@
 import layoutConfig from '@/config/layout.json';
 import { useLayout } from '@/context/LayoutContext';
 import { usePalette } from '@/context/PaletteContext';
-import { BarChart3, ChevronLeft, ChevronRight, FileText, Layout, LayoutDashboard, LogOut, MessageSquare, Palette, Settings, Shuffle, User, Users } from 'lucide-react';
+import { BarChart3, ChevronLeft, ChevronRight, FileText, Layout, LayoutDashboard, LogOut, MessageSquare, Palette, Settings, Shuffle, User, Users, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
@@ -25,16 +25,15 @@ interface MenuItem {
   onClick?: () => void;
 }
 
-export function DashboardSidebar() {
+interface DashboardSidebarProps {
+  onClose?: () => void;
+}
+
+export function DashboardSidebar({ onClose }: DashboardSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const { currentLayout, setCurrentLayout } = useLayout();
   const { colors, setPalette } = usePalette();
-  const [isCollapsed, setIsCollapsed] = React.useState(false);
-
-  const toggleSidebar = () => {
-    setIsCollapsed(!isCollapsed);
-  };
 
   const handleSignOut = () => {
     // Placeholder for sign out logic
@@ -127,99 +126,40 @@ export function DashboardSidebar() {
   );
 
   return (
-    <aside className={`${isCollapsed ? 'w-16' : 'w-64'} bg-gray-800 h-screen sticky top-0 transition-all duration-300`}>
+    <aside className="bg-gray-800 h-screen sticky top-0 w-64 transition-all duration-300">
       <div className="flex flex-col h-full relative">
-        {/* Toggle Button */}
+        {/* Bouton de fermeture - visible uniquement sur mobile */}
         <button
-          onClick={toggleSidebar}
-          className="absolute -right-3 top-4 bg-gray-700 rounded-full p-1.5 hover:bg-gray-600 transition-colors"
+          onClick={onClose}
+          className="md:hidden absolute right-4 top-4 p-2 rounded-lg hover:bg-gray-700/50 text-gray-400 hover:text-white"
         >
-          {isCollapsed ? (
-            <ChevronRight className="h-4 w-4 text-white" />
-          ) : (
-            <ChevronLeft className="h-4 w-4 text-white" />
-          )}
+          <X className="h-5 w-5" />
         </button>
 
-        {/* Logo */}
-        <div className={`p-4 ${isCollapsed ? 'items-center' : ''}`}>
-          {!isCollapsed ? (
-            <>
-              <span className="text-xl font-semibold text-white">Design System</span>
-              <span className="text-sm text-gray-400 block mt-1">Layout: {currentLayout}</span>
-              <span className="text-sm text-gray-400 block">Palette: {colors.join(', ')}</span>
-            </>
-          ) : (
-            <span className="text-xl font-semibold text-white">DS</span>
-          )}
+        {/* Logo - ajusté pour laisser de l'espace pour le bouton de fermeture */}
+        <div className="p-4 pr-12">
+          <span className="text-xl font-semibold text-white">Design System</span>
+          <span className="text-sm text-gray-400 block mt-1">Layout: {currentLayout}</span>
+          <span className="text-sm text-gray-400 block">Palette: {colors.join(', ')}</span>
         </div>
 
         {/* Main Navigation */}
-        <nav className={`flex-1 ${isCollapsed ? 'px-2' : 'p-4'} space-y-1`}>
-          {isCollapsed ? (
-            mainMenuItems.map((item: MenuItem) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`flex items-center justify-center p-2 rounded-lg transition-colors ${
-                  pathname === item.href
-                    ? 'bg-gray-700 text-white'
-                    : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
-                }`}
-                title={item.text}
-              >
-                <item.icon className="h-5 w-5" />
-              </Link>
-            ))
-          ) : (
-            <>
-              {renderMenuItems(mainMenuItems)}
-              {renderLayoutSelector()}
-            </>
-          )}
+        <nav className="flex-1 p-4 space-y-1">
+          {renderMenuItems(mainMenuItems)}
+          {renderLayoutSelector()}
         </nav>
 
         {/* Secondary Navigation */}
-        <div className={`${isCollapsed ? 'px-2' : 'p-4'} border-t border-gray-700/50 bg-gray-700/20`}>
-          <div className={`${isCollapsed ? 'hidden' : 'block'} mb-2 px-3 text-xs font-semibold text-gray-400 uppercase`}>
+        <div className="p-4 border-t border-gray-700/50 bg-gray-700/20">
+          <div className="mb-2 px-3 text-xs font-semibold text-gray-400 uppercase">
             Resources
           </div>
-          {isCollapsed ? (
-            secondaryMenuItems.map((item: MenuItem) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`flex items-center justify-center p-2 rounded-lg transition-colors ${
-                  pathname === item.href
-                    ? 'bg-gray-700 text-white'
-                    : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
-                }`}
-                title={item.text}
-              >
-                <item.icon className="h-5 w-5" />
-              </Link>
-            ))
-          ) : (
-            renderMenuItems(secondaryMenuItems)
-          )}
+          {renderMenuItems(secondaryMenuItems)}
         </div>
 
         {/* User Menu */}
-        <div className={`${isCollapsed ? 'px-2' : 'p-4'} border-t border-gray-700`}>
-          {isCollapsed ? (
-            userMenuItems.map((item: MenuItem) => (
-              <button
-                key={item.text}
-                onClick={item.onClick || (() => router.push(item.href))}
-                className="flex items-center justify-center p-2 rounded-lg transition-colors w-full text-gray-400 hover:bg-gray-700/50 hover:text-white"
-                title={item.text}
-              >
-                <item.icon className="h-5 w-5" />
-              </button>
-            ))
-          ) : (
-            renderMenuItems(userMenuItems)
-          )}
+        <div className="p-4 border-t border-gray-700">
+          {renderMenuItems(userMenuItems)}
         </div>
       </div>
     </aside>

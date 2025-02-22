@@ -20,3 +20,22 @@
 .layout-expanded .flex-1 {
   padding: 1.5rem !important;
 }
+
+.sidebar-transition {
+  transition: width 0.3s ease-in-out;
+}
+
+@media (max-width: 767px) {
+  /* Sur mobile, quand la sidebar est visible */
+  .fixed.left-0 {
+    width: 100%; /* Prend toute la largeur */
+    background-color: rgba(0, 0, 0, 0.5); /* Overlay sombre */
+  }
+  
+  /* La sidebar elle-même */
+  .fixed.left-0 aside {
+    width: 16rem; /* w-64 */
+    height: 100vh;
+    background-color: var(--bg-sidebar, #1f2937); /* Assure que la sidebar a un fond */
+  }
+}

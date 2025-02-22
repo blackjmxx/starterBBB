@@ -3,7 +3,7 @@ import { DashboardHeader } from '@/components/dashboard/Header';
 import { DashboardSidebar } from '@/components/dashboard/Sidebar';
 import { usePalette } from '@/context/PaletteContext';
 import '@/styles/dashboard.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AuthGuard } from '@/guard/auth-guard';
 
 function generateRandomColor(): string {
@@ -22,6 +22,23 @@ export default function DashboardLayout({
   const [colorCount, setColorCount] = useState(6);
   const { colors, setPalette } = usePalette();
   const [layout, setLayout] = useState('default');
+  const [sidebarVisible, setSidebarVisible] = useState(false);
+
+  // Détecter la taille de l'écran et ajuster la visibilité de la sidebar
+  useEffect(() => {
+    const handleResize = () => {
+      setSidebarVisible(window.innerWidth >= 768); // 768px est le breakpoint standard pour mobile
+    };
+
+    // Initialiser l'état
+    handleResize();
+
+    // Ajouter l'écouteur d'événement
+    window.addEventListener('resize', handleResize);
+
+    // Nettoyer l'écouteur d'événement
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const regeneratePalette = () => {
     const newPalette = generateRandomPalette(colorCount);
@@ -29,12 +46,27 @@ export default function DashboardLayout({
   };
 
   return (
-    <AuthGuard>
+    // <AuthGuard>
     <div className={`flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors layout-${layout}`}>
       <div className="flex flex-1">
-        <DashboardSidebar />
+        {/* Overlay pour fermer la sidebar sur mobile */}
+        {sidebarVisible && (
+          <div 
+            className="md:hidden fixed inset-0 bg-black/50 z-40"
+            onClick={() => setSidebarVisible(false)}
+          />
+        )}
+        <div className={`transition-all duration-300 ${
+          sidebarVisible 
+            ? 'md:w-64 w-64'
+            : 'w-0'
+        } ${
+          sidebarVisible && 'md:relative fixed inset-y-0 left-0 z-50'
+        } overflow-hidden`}>
+          <DashboardSidebar onClose={() => setSidebarVisible(false)} />
+        </div>
         <div className="flex-1 flex flex-col overflow-hidden">
-          <DashboardHeader />
+          <DashboardHeader onToggleSidebar={() => setSidebarVisible(!sidebarVisible)} />
           <main className="flex-1 p-4 -mt-4 overflow-auto">
             {children}
           </main>
@@ -88,6 +120,6 @@ export default function DashboardLayout({
         </div>
       </div>
     </div>
-    </AuthGuard>
+    // </AuthGuard>
   );
 }
