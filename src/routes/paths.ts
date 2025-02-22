@@ -11,6 +11,7 @@ export interface MenuItem {
   title: string;
   path: string;
   onClick?: () => void;
+  children?: MenuItem[];
 }
 
 export const paths = {
@@ -33,11 +34,40 @@ export const paths = {
           icon: Palette,
           title: 'Foundation',
           path: `${ROOTS.DASHBOARD}/foundation`,
+          children: [
+            {
+              icon: FileText,
+              title: 'Foundation',
+              path: `${ROOTS.DASHBOARD}/foundation`,
+            },
+            {
+              icon: Palette,
+              title: 'Colors',
+              path: `${ROOTS.DASHBOARD}/foundation/colors`,
+            },
+            {
+              icon: Layout,
+              title: 'Typography',
+              path: `${ROOTS.DASHBOARD}/foundation/typography`,
+            },
+          ],
         },
         {
           icon: BarChart3,
           title: 'Analytics',
           path: `${ROOTS.DASHBOARD}/analytics`,
+          children: [
+            {
+              icon: BarChart3,
+              title: 'Reports',
+              path: `${ROOTS.DASHBOARD}/analytics/reports`,
+            },
+            {
+              icon: Users,
+              title: 'Users',
+              path: `${ROOTS.DASHBOARD}/analytics/users`,
+            },
+          ],
         },
         {
           icon: Users,

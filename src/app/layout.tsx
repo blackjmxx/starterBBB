@@ -21,7 +21,7 @@ export default function RootLayout({
   const colors = activeTheme ? activeTheme.colors : config.themes[0].colors;
 
   return (
-    <html lang="fr">
+    <html lang="en" suppressHydrationWarning>
       <body>
         <AuthProvider>
         <ThemeProvider>

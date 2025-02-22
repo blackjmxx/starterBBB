@@ -2,10 +2,10 @@
 import layoutConfig from '@/config/layout.json';
 import { useLayout } from '@/context/LayoutContext';
 import { usePalette } from '@/context/PaletteContext';
-import { BarChart3, ChevronLeft, ChevronRight, FileText, Layout, LayoutDashboard, LogOut, MessageSquare, Palette, Settings, Shuffle, User, Users, X } from 'lucide-react';
+import { BarChart3, ChevronLeft, ChevronRight, FileText, Layout, LayoutDashboard, LogOut, MessageSquare, Palette, Settings, Shuffle, User, Users, X, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
 import { paths } from '@/routes/paths';
 import { ElementType } from 'react';
 
@@ -25,17 +25,96 @@ interface DashboardSidebarProps {
 }
 
 interface MenuItem {
-  icon: ElementType;
+  icon: LucideIcon;
   title: string;
   path: string;
-  onClick?: () => void;
+  children?: MenuItem[];
 }
+
+interface MenuItemProps {
+  item: MenuItem;
+  level?: number;
+  isOpen?: boolean;
+  onToggle?: () => void;
+}
+
+const MenuItem = ({ item, level = 0, isOpen, onToggle }: MenuItemProps) => {
+  const pathname = usePathname();
+  const hasChildren = item.children && item.children.length > 0;
+  
+  return (
+    <div className="relative">
+      {/* Si l'item a des enfants, on utilise un bouton pour le toggle */}
+      {hasChildren ? (
+        <button
+          onClick={onToggle}
+          className={`
+            flex items-center justify-between w-full
+            px-3 py-2 rounded-lg transition-colors
+            text-gray-400 hover:bg-gray-700/50 hover:text-white
+            ${level > 0 ? 'pl-8' : ''}
+            ${pathname.startsWith(item.path) ? 'text-white' : ''}
+          `}
+        >
+          <div className="flex items-center gap-3">
+            <item.icon className="h-5 w-5" />
+            <span>{item.title}</span>
+          </div>
+          <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        </button>
+      ) : (
+        // Si l'item n'a pas d'enfants, on utilise soit un bouton (pour onClick) soit un Link
+        item.onClick ? (
+          <button
+            onClick={item.onClick}
+            className={`
+              flex items-center justify-between w-full
+              px-3 py-2 rounded-lg transition-colors
+              text-gray-400 hover:bg-gray-700/50 hover:text-white
+              ${level > 0 ? 'pl-8' : ''}
+            `}
+          >
+            <div className="flex items-center gap-3">
+              <item.icon className="h-5 w-5" />
+              <span>{item.title}</span>
+            </div>
+          </button>
+        ) : (
+          <Link
+            href={item.path}
+            className={`
+              flex items-center justify-between
+              px-3 py-2 rounded-lg transition-colors
+              ${pathname === item.path ? 'bg-gray-700 text-white' : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'}
+              ${level > 0 ? 'pl-8' : ''}
+            `}
+          >
+            <div className="flex items-center gap-3">
+              <item.icon className="h-5 w-5" />
+              <span>{item.title}</span>
+            </div>
+          </Link>
+        )
+      )}
+      
+      {/* Sous-menu */}
+      {hasChildren && isOpen && (
+        <div className="mt-1 space-y-1">
+          {item.children.map((child) => (
+            <MenuItem key={child.path} item={child} level={level + 1} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 
 export function DashboardSidebar({ onClose }: DashboardSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const { currentLayout, setCurrentLayout } = useLayout();
   const { colors, setPalette } = usePalette();
+  const [openMenus, setOpenMenus] = useState<string[]>([]);
 
   const handleSignOut = () => {
     // Placeholder for sign out logic
@@ -48,6 +127,14 @@ export function DashboardSidebar({ onClose }: DashboardSidebarProps) {
     const newLayout = event.target.value;
     setCurrentLayout(newLayout);
     console.log('Layout changed to:', newLayout);
+  };
+
+  const toggleMenu = (path: string) => {
+    setOpenMenus(prev => 
+      prev.includes(path) 
+        ? prev.filter(p => p !== path)
+        : [...prev, path]
+    );
   };
 
   const renderLayoutSelector = () => (
@@ -69,29 +156,12 @@ export function DashboardSidebar({ onClose }: DashboardSidebarProps) {
 
   const renderMenuItems = (items: MenuItem[]) => (
     items.map((item) => (
-      item.onClick ? (
-        <button
-          key={item.title}
-          onClick={item.onClick}
-          className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors w-full text-left text-gray-400 hover:bg-gray-700/50 hover:text-white`}
-        >
-          <item.icon className="h-5 w-5" />
-          <span>{item.title}</span>
-        </button>
-      ) : (
-        <Link
-          key={item.path}
-          href={item.path}
-          className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-            pathname === item.path
-              ? 'bg-gray-700 text-white'
-              : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
-          }`}
-        >
-          <item.icon className="h-5 w-5" />
-          <span>{item.title}</span>
-        </Link>
-      )
+      <MenuItem
+        key={item.path}
+        item={item}
+        isOpen={openMenus.includes(item.path)}
+        onToggle={() => toggleMenu(item.path)}
+      />
     ))
   );
 
@@ -106,7 +176,7 @@ export function DashboardSidebar({ onClose }: DashboardSidebarProps) {
   }));
 
   return (
-    <aside className="bg-gray-800 fixed top-0 bottom-0 left-0 w-64">
+    <aside className="flex h-full flex-col">
       {/* Bouton de fermeture - Fixe */}
       <button
         onClick={onClose}
@@ -116,7 +186,7 @@ export function DashboardSidebar({ onClose }: DashboardSidebarProps) {
       </button>
 
       {/* Zone scrollable - Tout le contenu */}
-      <div className="h-full overflow-y-auto">
+      <div className="flex-1 overflow-y-auto">
         {/* Logo */}
         <div className="p-4">
           <span className="text-xl font-semibold text-white">Design System</span>
