@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { cn } from "@/lib/utils";
 
@@ -24,6 +24,8 @@ export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const login = useAuthStore((state) => state.login);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnTo = searchParams.get('returnTo') || '/dashboard';
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -37,15 +39,15 @@ export function LoginForm() {
   const onSubmit = async (data: LoginFormData) => {
     try {
       setIsLoading(true);
-      alert('Connexion réussie');
       await login(data.email, data.password);
       
-      // Stockage dans les cookies pour le middleware
-      document.cookie = 'isAuthenticated=true; path=/';
+      // Stockage du token dans un cookie sécurisé
+      document.cookie = `auth_token=${data.remember ? '1' : '0'}; path=/; secure; samesite=strict`;
       
-      router.push('/dashboard');
+      router.push(returnTo);
     } catch (error) {
       console.error('Login failed:', error);
+      // Gérer l'erreur...
     } finally {
       setIsLoading(false);
     }

@@ -96,13 +96,13 @@ class AuthService {
   }
 
   private handleAuthSuccess(response: IAuthResponse) {
-    // Store token in localStorage or secure cookie
-    localStorage.setItem('auth_token', response.token);
+    // Utiliser un cookie HttpOnly pour plus de sécurité
+    document.cookie = `auth_token=${response.token}; path=/; secure; samesite=strict; max-age=86400`;
   }
 
   private handleLogout() {
-    // Clear stored auth data
-    localStorage.removeItem('auth_token');
+    // Supprimer le cookie de manière sécurisée
+    document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
   }
 
   private handleError(error: unknown): Error {

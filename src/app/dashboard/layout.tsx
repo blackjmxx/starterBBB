@@ -4,6 +4,7 @@ import { DashboardSidebar } from '@/components/dashboard/Sidebar';
 import { usePalette } from '@/context/PaletteContext';
 import '@/styles/dashboard.css';
 import { useState } from 'react';
+import { AuthGuard } from '@/guard/auth-guard';
 
 function generateRandomColor(): string {
   return '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
@@ -28,6 +29,7 @@ export default function DashboardLayout({
   };
 
   return (
+    <AuthGuard>
     <div className={`flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors layout-${layout}`}>
       <div className="flex flex-1">
         <DashboardSidebar />
@@ -86,5 +88,6 @@ export default function DashboardLayout({
         </div>
       </div>
     </div>
+    </AuthGuard>
   );
 }

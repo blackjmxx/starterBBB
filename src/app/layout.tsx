@@ -8,6 +8,8 @@ import '@/styles/accents.css';
 import '@/styles/index.css';
 import '@/styles/initials.css';
 import { ColorConfig } from '@/types/colors';
+import { AuthProvider } from '@/context/auth/jwt/auth-provider';
+
 
 export default function RootLayout({
   children,
@@ -21,13 +23,15 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body>
+        <AuthProvider>
         <ThemeProvider>
           <PaletteProvider initialColors={colors}>
             <LayoutProvider>
               {children}
             </LayoutProvider>
-          </PaletteProvider>
-        </ThemeProvider>
+            </PaletteProvider>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

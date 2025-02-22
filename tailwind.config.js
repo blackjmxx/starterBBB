@@ -15,7 +15,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: 'rgb(var(--background))',
+        background: 'var(--background-color)',
         foreground: 'rgb(var(--foreground))',
         accent: 'rgb(var(--accent))',
         success: 'rgb(var(--success))',
