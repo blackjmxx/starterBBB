@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   useFloating,
   autoUpdate,
@@ -12,16 +12,24 @@ import {
   useHover,
   safePolygon,
   Placement,
-} from '@floating-ui/react';
-import { Heading, HeadingProps } from './heading';
-import { twMerge } from 'tailwind-merge';
+} from "@floating-ui/react";
+import { Heading, HeadingProps } from "./heading";
+import { twMerge } from "tailwind-merge";
 
+/**
+ * Options pour le composant HoverCard
+ */
 interface PopoverOptions {
+  /** Position du popover par rapport à l'élément déclencheur */
   placement?: Placement;
+  /** Si true, le popover sera modal */
   modal?: boolean;
 }
 
-function useHoverCard({ placement = 'bottom', modal }: PopoverOptions = {}) {
+/**
+ * Hook personnalisé pour gérer l'état et les interactions du HoverCard
+ */
+function useHoverCard({ placement = "bottom", modal }: PopoverOptions = {}) {
   const [isOpen, setIsOpen] = React.useState(false);
   const labelId = React.useId();
 
@@ -31,7 +39,7 @@ function useHoverCard({ placement = 'bottom', modal }: PopoverOptions = {}) {
     onOpenChange: setIsOpen,
     middleware: [
       offset(10),
-      flip({ fallbackAxisSideDirection: 'end' }),
+      flip({ fallbackAxisSideDirection: "end" }),
       shift(),
     ],
     whileElementsMounted: autoUpdate,
@@ -56,7 +64,7 @@ function useHoverCard({ placement = 'bottom', modal }: PopoverOptions = {}) {
       modal,
       labelId,
     }),
-    [isOpen, interactions, data, modal, labelId],
+    [isOpen, interactions, data, modal, labelId]
   );
 }
 
@@ -68,17 +76,32 @@ const useHoverCardContext = () => {
   const context = React.useContext(HoverCardContext);
 
   if (context == null) {
-    throw new Error('HoverCard components must be wrapped in <HoverCard />');
+    throw new Error("HoverCard components must be wrapped in <HoverCard />");
   }
 
   return context;
 };
 
+/**
+ * Carte qui s'affiche au survol d'un élément
+ *
+ * @example
+ * <HoverCard>
+ *   <HoverCardTrigger>
+ *     <Button>Survolez-moi</Button>
+ *   </HoverCardTrigger>
+ *   <HoverCardContent>
+ *     <HoverCardHeader>Titre</HoverCardHeader>
+ *     <p>Contenu détaillé qui s'affiche au survol</p>
+ *   </HoverCardContent>
+ * </HoverCard>
+ */
 export function HoverCard({
   children,
   modal = false,
   ...restOptions
 }: {
+  /** Contenu du HoverCard (trigger et content) */
   children: React.ReactNode;
 } & PopoverOptions) {
   const popover = useHoverCard({ modal, ...restOptions });
@@ -90,6 +113,9 @@ export function HoverCard({
   );
 }
 
+/**
+ * Élément déclencheur qui active la carte au survol
+ */
 export function HoverCardTrigger({ children }: { children: React.ReactNode }) {
   const context = useHoverCardContext();
   const child = React.Children.only(children);
@@ -100,16 +126,22 @@ export function HoverCardTrigger({ children }: { children: React.ReactNode }) {
   });
 }
 
+/**
+ * Contenu de la carte qui s'affiche au survol
+ */
 export function HoverCardContent({
   children,
   label,
   className,
 }: {
+  /** Contenu de la carte ou fonction de rendu avec fonction de fermeture */
   children:
     | React.ReactNode
     | (({ close }: { close: () => void }) => React.ReactNode);
 } & {
+  /** Libellé d'accessibilité pour la carte */
   label?: string;
+  /** Classes CSS additionnelles */
   className?: string;
 }) {
   const {
@@ -123,22 +155,22 @@ export function HoverCardContent({
     getFloatingProps,
   } = useHoverCardContext();
 
-  const aria = label ? { 'aria-label': label } : { 'aria-labelledby': labelId };
+  const aria = label ? { "aria-label": label } : { "aria-labelledby": labelId };
 
   return (
     isOpen && (
       <FloatingFocusManager context={floatingContext} modal={modal}>
         <div
           className={twMerge(
-            'max-w-72 rounded-lg bg-background dark:bg-zinc-800 p-1 shadow-lg outline-none ring-1 ring-zinc-950/10 dark:ring-white/15',
-            className,
+            "max-w-72 rounded-lg bg-background dark:bg-zinc-800 p-1 shadow-lg outline-none ring-1 ring-zinc-950/10 dark:ring-white/15",
+            className
           )}
           ref={refs.setFloating}
           style={floatingStyles}
           {...getFloatingProps()}
           {...aria}
         >
-          {typeof children === 'function'
+          {typeof children === "function"
             ? children({ close: () => setIsOpen(false) })
             : children}
         </div>
@@ -147,6 +179,9 @@ export function HoverCardContent({
   );
 }
 
+/**
+ * En-tête de la carte avec titre
+ */
 export function HoverCardHeader(props: HeadingProps) {
   const { labelId } = useHoverCardContext();
   return <Heading {...props} id={labelId}></Heading>;

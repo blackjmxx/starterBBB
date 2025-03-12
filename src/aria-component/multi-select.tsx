@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   ComboBox,
   ComboBoxProps as RACComboBoxProps,
@@ -8,46 +8,60 @@ import {
   GroupProps,
   LabelContext,
   Group,
-} from 'react-aria-components';
-import { useListData, ListData } from 'react-stately';
-import { useFilter } from 'react-aria';
+} from "react-aria-components";
+import { useListData, ListData } from "react-stately";
+import { useFilter } from "react-aria";
 import {
   DescriptionProvider,
   LabeledGroup,
   Input,
   DescriptionContext,
-} from './field';
-import { Popover } from './popover';
-import { ListBox, ListBoxItem } from './list-box';
-import { Button } from './button';
-import { twMerge } from 'tailwind-merge';
-import { TagGroup, TagList } from './tag-group';
-import { composeTailwindRenderProps, inputField } from './utils';
+} from "./field";
+import { Popover } from "./popover";
+import { ListBox, ListBoxItem } from "./list-box";
+import { Button } from "./button";
+import { twMerge } from "tailwind-merge";
+import { TagGroup, TagList } from "./tag-group";
+import { composeTailwindRenderProps, inputField } from "./utils";
 
+/**
+ * Props pour le composant MultiSelect
+ */
 export interface MultiSelectProps<T extends object>
   extends Omit<
     RACComboBoxProps<T>,
-    | 'children'
-    | 'validate'
-    | 'allowsEmptyCollection'
-    | 'inputValue'
-    | 'selectedKey'
-    | 'inputValue'
-    | 'className'
-    | 'value'
-    | 'onSelectionChange'
-    | 'onInputChange'
+    | "children"
+    | "validate"
+    | "allowsEmptyCollection"
+    | "inputValue"
+    | "selectedKey"
+    | "inputValue"
+    | "className"
+    | "value"
+    | "onSelectionChange"
+    | "onInputChange"
   > {
+  /** Liste des éléments disponibles */
   items: Array<T>;
+  /** Liste des éléments sélectionnés */
   selectedList: ListData<T>;
+  /** Classes CSS additionnelles */
   className?: string;
+  /** Fonction appelée lorsqu'un élément est ajouté */
   onItemAdd?: (key: Key) => void;
+  /** Fonction appelée lorsqu'un élément est supprimé */
   onItemRemove?: (key: Key) => void;
+  /** Fonction de rendu pour l'état vide */
   renderEmptyState: (inputValue: string) => React.ReactNode;
+  /** Fonction de rendu pour les tags */
   tag: (item: T) => React.ReactNode;
+  /** Contenu du composant */
   children: React.ReactNode | ((item: T) => React.ReactNode);
 }
 
+/**
+ * Champ de formulaire pour le composant MultiSelect
+ */
 export function MultiSelectField({
   children,
   className,
@@ -62,11 +76,37 @@ export function MultiSelectField({
   );
 }
 
+/**
+ * Sélecteur multiple avec recherche et tags
+ *
+ * @example
+ * const list = useListData({
+ *   initialItems: [
+ *     { id: 1, name: "Option 1" },
+ *     { id: 2, name: "Option 2" },
+ *     { id: 3, name: "Option 3" }
+ *   ]
+ * });
+ *
+ * <MultiSelectField>
+ *   <Label>Sélectionnez des options</Label>
+ *   <MultiSelect
+ *     items={items}
+ *     selectedList={list}
+ *     onItemAdd={(key) => console.log("Added", key)}
+ *     onItemRemove={(key) => console.log("Removed", key)}
+ *     renderEmptyState={(input) => `Aucun résultat pour "${input}"`}
+ *     tag={(item) => <Tag>{item.name}</Tag>}
+ *   >
+ *     {(item) => <MultiSelectItem>{item.name}</MultiSelectItem>}
+ *   </MultiSelect>
+ * </MultiSelectField>
+ */
 export function MultiSelect<
   T extends {
     id: Key;
     textValue: string;
-  },
+  }
 >({
   children,
   items,
@@ -78,7 +118,7 @@ export function MultiSelect<
   renderEmptyState,
   ...props
 }: MultiSelectProps<T>) {
-  const { contains } = useFilter({ sensitivity: 'base' });
+  const { contains } = useFilter({ sensitivity: "base" });
 
   const selectedKeys = selectedList.items.map((i) => i.id);
 
@@ -88,7 +128,7 @@ export function MultiSelect<
         !selectedKeys.includes(item.id) && contains(item.textValue, filterText)
       );
     },
-    [contains, selectedKeys],
+    [contains, selectedKeys]
   );
 
   const availableList = useListData({
@@ -101,7 +141,7 @@ export function MultiSelect<
     inputValue: string;
   }>({
     selectedKey: null,
-    inputValue: '',
+    inputValue: "",
   });
 
   const onRemove = React.useCallback(
@@ -110,13 +150,13 @@ export function MultiSelect<
       if (key) {
         selectedList.remove(key);
         setFieldState({
-          inputValue: '',
+          inputValue: "",
           selectedKey: null,
         });
         onItemRemove?.(key);
       }
     },
-    [selectedList, onItemRemove],
+    [selectedList, onItemRemove]
   );
 
   const onSelectionChange = (id: Key | null) => {
@@ -133,19 +173,19 @@ export function MultiSelect<
     if (!selectedKeys.includes(id)) {
       selectedList.append(item);
       setFieldState({
-        inputValue: '',
+        inputValue: "",
         selectedKey: id,
       });
       onItemAdd?.(id);
     }
 
-    availableList.setFilterText('');
+    availableList.setFilterText("");
   };
 
   const onInputChange = (value: string) => {
     setFieldState((prevState) => ({
       inputValue: value,
-      selectedKey: value === '' ? null : prevState.selectedKey,
+      selectedKey: value === "" ? null : prevState.selectedKey,
     }));
 
     availableList.setFilterText(value);
@@ -164,18 +204,18 @@ export function MultiSelect<
     }
 
     setFieldState({
-      inputValue: '',
+      inputValue: "",
       selectedKey: null,
     });
   }, [selectedList, onItemRemove]);
 
   const onKeyDownCapture = React.useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'Backspace' && fieldState.inputValue === '') {
+      if (e.key === "Backspace" && fieldState.inputValue === "") {
         deleteLast();
       }
     },
-    [deleteLast, fieldState.inputValue],
+    [deleteLast, fieldState.inputValue]
   );
 
   const tagGroupId = React.useId();
@@ -214,13 +254,13 @@ export function MultiSelect<
         data-ui="control"
         ref={triggerRef}
         className={twMerge(
-          'relative',
-          'pe-4',
-          'flex min-h-9 w-[350px] flex-row flex-wrap items-center rounded-md',
-          'border has-[input[data-focused=true]]:border-blue-500',
-          'has-[input[data-invalid=true][data-focused=true]]:border-blue-500 has-[input[data-invalid=true]]:border-destructive',
-          'has-[input[data-focused=true]]:ring-1 has-[input[data-focused=true]]:ring-blue-500',
-          className,
+          "relative",
+          "pe-4",
+          "flex min-h-9 w-[350px] flex-row flex-wrap items-center rounded-md",
+          "border has-[input[data-focused=true]]:border-blue-500",
+          "has-[input[data-invalid=true][data-focused=true]]:border-blue-500 has-[input[data-invalid=true]]:border-destructive",
+          "has-[input[data-focused=true]]:ring-1 has-[input[data-focused=true]]:ring-blue-500",
+          className
         )}
       >
         {selectedList.items.length > 0 && (
@@ -233,8 +273,8 @@ export function MultiSelect<
             <TagList
               items={selectedList.items}
               className={twMerge(
-                selectedList.items.length !== 0 && 'p-1',
-                'outline-none',
+                selectedList.items.length !== 0 && "p-1",
+                "outline-none"
               )}
             >
               {props.tag}
@@ -245,7 +285,7 @@ export function MultiSelect<
         <ComboBox
           {...props}
           allowsEmptyCollection
-          className={twMerge('group flex flex-1', className)}
+          className={twMerge("group flex flex-1", className)}
           items={availableList.items}
           selectedKey={fieldState.selectedKey}
           inputValue={fieldState.inputValue}
@@ -255,23 +295,23 @@ export function MultiSelect<
         >
           <div
             className={[
-              'inline-flex flex-1 flex-wrap items-center gap-1 px-2',
-              selectedList.items.length > 0 && 'ps-0',
-            ].join(' ')}
+              "inline-flex flex-1 flex-wrap items-center gap-1 px-2",
+              selectedList.items.length > 0 && "ps-0",
+            ].join(" ")}
           >
             <Input
               className="me-4 flex-1 border-0 px-0.5 py-0 outline-0 focus:ring-0"
               onBlur={() => {
                 setFieldState({
-                  inputValue: '',
+                  inputValue: "",
                   selectedKey: null,
                 });
-                availableList.setFilterText('');
+                availableList.setFilterText("");
               }}
               aria-describedby={[
                 tagGroupId,
-                descriptionContext?.['aria-describedby'] ?? '',
-              ].join(' ')}
+                descriptionContext?.["aria-describedby"] ?? "",
+              ].join(" ")}
               onKeyDownCapture={onKeyDownCapture}
             />
 
@@ -339,12 +379,15 @@ export function MultiSelect<
       </div>
 
       {name && (
-        <input hidden name={name} value={selectedKeys.join(',')} readOnly />
+        <input hidden name={name} value={selectedKeys.join(",")} readOnly />
       )}
     </>
   );
 }
 
+/**
+ * Élément individuel dans un MultiSelect
+ */
 export function MultiSelectItem(props: ListBoxItemProps) {
   return (
     <ListBoxItem
@@ -353,11 +396,11 @@ export function MultiSelectItem(props: ListBoxItemProps) {
         props.className,
         (className, { isFocused }) => {
           return twMerge([
-            'rounded-md p-1.5 text-base/6 outline-0 focus-visible:outline-0 sm:text-sm/6',
-            isFocused && 'bg-zinc-100 dark:bg-zinc-700',
+            "rounded-md p-1.5 text-base/6 outline-0 focus-visible:outline-0 sm:text-sm/6",
+            isFocused && "bg-zinc-100 dark:bg-zinc-700",
             className,
           ]);
-        },
+        }
       )}
     >
       {props.children}

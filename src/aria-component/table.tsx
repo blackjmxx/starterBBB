@@ -16,17 +16,41 @@ import {
   TableProps,
   composeRenderProps,
   useTableOptions,
-} from 'react-aria-components';
-import { twMerge } from 'tailwind-merge';
-import { Checkbox } from './checkbox';
+} from "react-aria-components";
+import { twMerge } from "tailwind-merge";
+import { Checkbox } from "./checkbox";
 import {
   composeTailwindRenderProps,
   focusRing,
   focusVisibleOutline,
   focusVisibleRing,
-} from './utils';
-import { ChevronUpIcon } from './icons';
+} from "./utils";
+import { ChevronUpIcon } from "./icons";
 
+/**
+ * Tableau de données avec support pour le tri, la sélection et le redimensionnement
+ *
+ * @example
+ * <Table aria-label="Exemple de tableau">
+ *   <TableHeader>
+ *     <Column isRowHeader>Nom</Column>
+ *     <Column>Rôle</Column>
+ *     <Column>Statut</Column>
+ *   </TableHeader>
+ *   <TableBody>
+ *     <Row>
+ *       <Cell>Alice</Cell>
+ *       <Cell>Développeur</Cell>
+ *       <Cell>Actif</Cell>
+ *     </Row>
+ *     <Row>
+ *       <Cell>Bob</Cell>
+ *       <Cell>Designer</Cell>
+ *       <Cell>Inactif</Cell>
+ *     </Row>
+ *   </TableBody>
+ * </Table>
+ */
 export function Table(props: TableProps) {
   return (
     <ResizableTableContainer className="relative max-h-[280px] w-[550px] scroll-pt-[2.281rem] overflow-auto rounded-md border">
@@ -35,13 +59,22 @@ export function Table(props: TableProps) {
   );
 }
 
+/**
+ * Colonne de tableau avec support pour le tri et le redimensionnement
+ *
+ * @example
+ * <Column allowsSorting>Nom</Column>
+ *
+ * @example
+ * <Column isRowHeader>Identifiant</Column>
+ */
 export function Column(props: ColumnProps) {
   return (
     <AriaColumn
       {...props}
       className={composeTailwindRenderProps(
         props.className,
-        'cursor-default border-b text-start text-sm font-semibold [&:focus-within]:z-20 [&:hover]:z-20',
+        "cursor-default border-b text-start text-sm font-semibold [&:focus-within]:z-20 [&:hover]:z-20"
       )}
     >
       {composeRenderProps(
@@ -52,16 +85,16 @@ export function Column(props: ColumnProps) {
               role="presentation"
               tabIndex={-1}
               className={twMerge(
-                'outline-none',
+                "outline-none",
                 focusVisibleRing,
-                'flex h-5 flex-1 items-center gap-1 overflow-hidden px-2',
+                "flex h-5 flex-1 items-center gap-1 overflow-hidden px-2"
               )}
             >
               <span className="truncate">{children}</span>
               {allowsSorting && (
                 <span
                   className={`flex size-4 items-center justify-center transition ${
-                    sortDirection === 'descending' ? 'rotate-180' : ''
+                    sortDirection === "descending" ? "rotate-180" : ""
                   }`}
                 >
                   {sortDirection && (
@@ -73,19 +106,22 @@ export function Column(props: ColumnProps) {
             {!props.width && (
               <ColumnResizer
                 className={twMerge(
-                  'outline-none',
+                  "outline-none",
                   focusRing,
-                  'box-content h-5 w-[1.5px] translate-x-[8px] cursor-col-resize rounded bg-border bg-clip-content px-[8px] py-1 -outline-offset-2 resizing:w-[2px] resizing:bg-accent resizing:pl-[7px] forced-colors:bg-[ButtonBorder] forced-colors:resizing:bg-[Highlight]',
+                  "box-content h-5 w-[1.5px] translate-x-[8px] cursor-col-resize rounded bg-border bg-clip-content px-[8px] py-1 -outline-offset-2 resizing:w-[2px] resizing:bg-accent resizing:pl-[7px] forced-colors:bg-[ButtonBorder] forced-colors:resizing:bg-[Highlight]"
                 )}
               />
             )}
           </div>
-        ),
+        )
       )}
     </AriaColumn>
   );
 }
 
+/**
+ * En-tête de tableau
+ */
 export function TableHeader<T extends object>(props: TableHeaderProps<T>) {
   const { selectionBehavior, selectionMode, allowsDragging } =
     useTableOptions();
@@ -94,21 +130,21 @@ export function TableHeader<T extends object>(props: TableHeaderProps<T>) {
     <AriaTableHeader
       {...props}
       className={composeTailwindRenderProps(props.className, [
-        'sticky top-0 z-10 rounded-t-md  backdrop-blur-md',
+        "sticky top-0 z-10 rounded-t-md  backdrop-blur-md",
         "after:content-['']",
 
-        'after:flex-1',
+        "after:flex-1",
       ])}
     >
       {/* Add extra columns for drag and drop and selection. */}
       {allowsDragging && <Column />}
-      {selectionBehavior === 'toggle' && (
+      {selectionBehavior === "toggle" && (
         <AriaColumn
           width={36}
           minWidth={36}
           className="cursor-default border-b p-2 text-start text-sm font-semibold"
         >
-          {selectionMode === 'multiple' && <Checkbox slot="selection" />}
+          {selectionMode === "multiple" && <Checkbox slot="selection" />}
         </AriaColumn>
       )}
       <Collection items={props.columns}>{props.children}</Collection>
@@ -116,6 +152,9 @@ export function TableHeader<T extends object>(props: TableHeaderProps<T>) {
   );
 }
 
+/**
+ * Ligne de tableau
+ */
 export function Row<T extends object>({
   id,
   columns,
@@ -130,13 +169,13 @@ export function Row<T extends object>({
       {...otherProps}
       className={twMerge(
         focusVisibleOutline,
-        'focus-visible:outline-none',
-        'focus-visible:rounded',
-        'focus-visible:-outline-offset-2',
-        'group/row relative cursor-default select-none text-sm  disabled:text-muted',
-        'hover:bg-zinc-100 dark:hover:bg-zinc-700',
-        'hover:selected:bg-zinc-100 dark:hover:selected:bg-zinc-700',
-        'selected:bg-accent/5 dark:selected:bg-accent/35',
+        "focus-visible:outline-none",
+        "focus-visible:rounded",
+        "focus-visible:-outline-offset-2",
+        "group/row relative cursor-default select-none text-sm  disabled:text-muted",
+        "hover:bg-zinc-100 dark:hover:bg-zinc-700",
+        "hover:selected:bg-zinc-100 dark:hover:selected:bg-zinc-700",
+        "selected:bg-accent/5 dark:selected:bg-accent/35"
       )}
     >
       {allowsDragging && (
@@ -144,7 +183,7 @@ export function Row<T extends object>({
           <Button slot="drag">≡</Button>
         </Cell>
       )}
-      {selectionBehavior === 'toggle' && (
+      {selectionBehavior === "toggle" && (
         <Cell>
           <Checkbox slot="selection" />
         </Cell>
@@ -154,16 +193,19 @@ export function Row<T extends object>({
   );
 }
 
+/**
+ * Cellule de tableau
+ */
 export function Cell(props: CellProps) {
   return (
     <AriaCell
       {...props}
       className={twMerge(
-        'outline-none',
+        "outline-none",
         focusVisibleOutline,
-        'focus-visible:rounded',
-        'focus-visible:-outline-offset-2',
-        'truncate border-b p-2 group-last/row:border-b-0',
+        "focus-visible:rounded",
+        "focus-visible:-outline-offset-2",
+        "truncate border-b p-2 group-last/row:border-b-0"
       )}
     />
   );

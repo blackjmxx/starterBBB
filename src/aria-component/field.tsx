@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   FieldErrorProps,
   InputProps,
@@ -14,34 +14,44 @@ import {
   TextArea as RACTextArea,
   TextAreaProps as RACTextAreaProps,
   Text as RACText,
-} from 'react-aria-components';
-import { twMerge } from 'tailwind-merge';
+} from "react-aria-components";
+import { twMerge } from "tailwind-merge";
 import {
   composeTailwindRenderProps,
   DisplayLevel,
   displayLevels,
   focusRing,
   inputField,
-} from './utils';
-import { Text } from './text';
+} from "./utils";
+import { Text } from "./text";
 
-// https://react-spectrum.adobe.com/react-aria/Group.html#advanced-customization
+/**
+ * Groupe avec un libellé associé pour les composants de formulaire
+ *
+ * @example
+ * <LabeledGroup>
+ *   <Label>Options</Label>
+ *   <RadioGroup>...</RadioGroup>
+ * </LabeledGroup>
+ */
 export function LabeledGroup({
   className,
   children,
 }: {
+  /** Classes CSS additionnelles */
   className?: string;
+  /** Contenu du groupe */
   children: React.ReactNode;
 }) {
   const labelId = React.useId();
 
   return (
-    <LabelContext.Provider value={{ id: labelId, elementType: 'span' }}>
-      <GroupContext.Provider value={{ 'aria-labelledby': labelId }}>
+    <LabelContext.Provider value={{ id: labelId, elementType: "span" }}>
+      <GroupContext.Provider value={{ "aria-labelledby": labelId }}>
         <div
           className={twMerge(
-            ['[&>[data-ui=label]:first-of-type:not([class*=mb])]:mb-2'],
-            className,
+            ["[&>[data-ui=label]:first-of-type:not([class*=mb])]:mb-2"],
+            className
           )}
         >
           {children}
@@ -51,12 +61,23 @@ export function LabeledGroup({
   );
 }
 
+/**
+ * Libellé pour les champs de formulaire
+ *
+ * @example
+ * <Label>Nom d'utilisateur</Label>
+ *
+ * @example
+ * <Label requiredHint>Email</Label>
+ */
 export function Label({
   requiredHint,
   displayLevel = 3,
   ...props
 }: LabelProps & {
+  /** Affiche un indicateur visuel que le champ est obligatoire */
   requiredHint?: boolean;
+  /** Niveau d'affichage pour la taille du texte */
   displayLevel?: DisplayLevel;
 }) {
   return (
@@ -64,24 +85,31 @@ export function Label({
       {...props}
       data-ui="label"
       className={twMerge(
-        'inline-block min-w-max text-pretty',
-        'group-disabled:opacity-50',
+        "inline-block min-w-max text-pretty",
+        "group-disabled:opacity-50",
         displayLevels[displayLevel],
         requiredHint &&
           "after:ms-0.5 after:text-destructive after:content-['*']",
-        props.className,
+        props.className
       )}
     />
   );
 }
 
+/**
+ * Contexte pour associer des descriptions aux composants
+ */
 export const DescriptionContext = React.createContext<{
-  'aria-describedby'?: string;
+  "aria-describedby"?: string;
 } | null>(null);
 
+/**
+ * Fournisseur de contexte pour les descriptions
+ */
 export function DescriptionProvider({
   children,
 }: {
+  /** Contenu à envelopper */
   children: React.ReactNode;
 }) {
   const descriptionId: string | null = React.useId();
@@ -96,7 +124,7 @@ export function DescriptionProvider({
   return (
     <DescriptionContext.Provider
       value={{
-        'aria-describedby': descriptionRendered ? descriptionId : undefined,
+        "aria-describedby": descriptionRendered ? descriptionId : undefined,
       }}
     >
       {children}
@@ -105,20 +133,25 @@ export function DescriptionProvider({
 }
 
 /**
- * RAC will auto associate <RACText slot="description"/> with TextField/NumberField/RadioGroup/CheckboxGroup/DatePicker etc,
- * but not for Switch/Checkbox/Radio and our custom components. We use follow pattern to associate description for
- * Switch/Checkbox/Radio https://react-spectrum.adobe.com/react-aria/Switch.html#advanced-customization
+ * Description textuelle pour les champs de formulaire
+ *
+ * @example
+ * <TextField>
+ *   <Label>Nom d'utilisateur</Label>
+ *   <Input />
+ *   <Description>Entrez votre nom d'utilisateur</Description>
+ * </TextField>
  */
 export function Description({ className, ...props }: TextProps) {
   const describedby =
-    React.useContext(DescriptionContext)?.['aria-describedby'];
+    React.useContext(DescriptionContext)?.["aria-describedby"];
 
   return describedby ? (
     <Text
       {...props}
       id={describedby}
       data-ui="description"
-      className={twMerge('block group-disabled:opacity-50', className)}
+      className={twMerge("block group-disabled:opacity-50", className)}
     />
   ) : (
     <RACText
@@ -126,14 +159,24 @@ export function Description({ className, ...props }: TextProps) {
       data-ui="description"
       slot="description"
       className={twMerge(
-        'block text-pretty text-base/6 text-muted sm:text-sm/6',
-        'group-disabled:opacity-50',
-        className,
+        "block text-pretty text-base/6 text-muted sm:text-sm/6",
+        "group-disabled:opacity-50",
+        className
       )}
     />
   );
 }
 
+/**
+ * Champ de texte complet avec libellé et validation
+ *
+ * @example
+ * <TextField>
+ *   <Label>Email</Label>
+ *   <Input />
+ *   <FieldError />
+ * </TextField>
+ */
 export function TextField(props: RACTextFieldProps) {
   return (
     <RACTextField
@@ -144,6 +187,9 @@ export function TextField(props: RACTextFieldProps) {
   );
 }
 
+/**
+ * Message d'erreur pour les champs de formulaire
+ */
 export function FieldError(props: FieldErrorProps) {
   return (
     <RACFieldError
@@ -151,12 +197,15 @@ export function FieldError(props: FieldErrorProps) {
       data-ui="errorMessage"
       className={composeTailwindRenderProps(
         props.className,
-        'block text-base/6 text-destructive sm:text-sm/6',
+        "block text-base/6 text-destructive sm:text-sm/6"
       )}
     />
   );
 }
 
+/**
+ * Champ de saisie de texte standard
+ */
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   function Input(props, ref) {
     return (
@@ -164,31 +213,34 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {...props}
         ref={ref}
         className={composeTailwindRenderProps(props.className, [
-          'w-full rounded-md border bg-inherit outline-none',
-          'px-3 py-[calc(theme(spacing[2.5])-1px)] sm:py-[calc(theme(spacing[1.5])-1px)]',
-          'text-base/6 placeholder:text-muted sm:text-sm/6',
-          'invalid:border-destructive',
-          'disabled:opacity-50',
-          '[&[readonly]]:bg-zinc-50',
-          'dark:[&[readonly]]:bg-white/10',
+          "w-full rounded-md border bg-inherit outline-none",
+          "px-3 py-[calc(theme(spacing[2.5])-1px)] sm:py-[calc(theme(spacing[1.5])-1px)]",
+          "text-base/6 placeholder:text-muted sm:text-sm/6",
+          "invalid:border-destructive",
+          "disabled:opacity-50",
+          "[&[readonly]]:bg-zinc-50",
+          "dark:[&[readonly]]:bg-white/10",
           focusRing,
         ])}
       />
     );
-  },
+  }
 );
 
+/**
+ * Zone de texte multiligne
+ */
 export function TextArea(props: RACTextAreaProps) {
   return (
     <RACTextArea
       {...props}
       className={composeTailwindRenderProps(props.className, [
-        'w-full rounded-md border bg-inherit px-3 py-1 outline-none',
-        'text-base/6 placeholder:text-muted sm:text-sm/6 ',
-        'disabled:opacity-50',
-        'invalid:border-destructive',
-        '[&[readonly]]:bg-zinc-50',
-        'dark:[&[readonly]]:bg-white/10',
+        "w-full rounded-md border bg-inherit px-3 py-1 outline-none",
+        "text-base/6 placeholder:text-muted sm:text-sm/6 ",
+        "disabled:opacity-50",
+        "invalid:border-destructive",
+        "[&[readonly]]:bg-zinc-50",
+        "dark:[&[readonly]]:bg-white/10",
         focusRing,
       ])}
     />

@@ -11,18 +11,28 @@ import {
   Text,
   useLocale,
   composeRenderProps,
-} from 'react-aria-components';
-import { Button } from './button';
-import { focusVisibleOutline } from './utils';
-import { twMerge } from 'tailwind-merge';
-import { ChevronLeftIcon, ChevronRightIcon } from './icons';
-import { getLocalTimeZone, isToday } from '@internationalized/date';
+} from "react-aria-components";
+import { Button } from "./button";
+import { focusVisibleOutline } from "./utils";
+import { twMerge } from "tailwind-merge";
+import { ChevronLeftIcon, ChevronRightIcon } from "./icons";
+import { getLocalTimeZone, isToday } from "@internationalized/date";
 
+/**
+ * Props pour le composant Calendar
+ */
 export interface CalendarProps<T extends DateValue>
-  extends Omit<RACCalendarProps<T>, 'visibleDuration'> {
+  extends Omit<RACCalendarProps<T>, "visibleDuration"> {
+  /** Message d'erreur à afficher */
   errorMessage?: string;
 }
 
+/**
+ * Composant de calendrier pour sélectionner des dates
+ *
+ * @example
+ * <Calendar />
+ */
 export function Calendar<T extends DateValue>({
   errorMessage,
   ...props
@@ -31,7 +41,7 @@ export function Calendar<T extends DateValue>({
     <RACCalendar
       {...props}
       className={composeRenderProps(props.className, (className) => {
-        return twMerge('px-1.5 py-2.5', className);
+        return twMerge("px-1.5 py-2.5", className);
       })}
     >
       <CalendarHeader />
@@ -46,22 +56,22 @@ export function Calendar<T extends DateValue>({
               <CalendarCell
                 date={date}
                 className={twMerge(
-                  'relative flex size-9 cursor-default items-center justify-center rounded-md  text-[0.85rem] outline-none',
-                  'hover:bg-zinc-100 dark:hover:bg-zinc-700',
-                  'pressed:bg-accent/90 pressed:text-white',
-                  'disabled:opacity-50',
+                  "relative flex size-9 cursor-default items-center justify-center rounded-md  text-[0.85rem] outline-none",
+                  "hover:bg-zinc-100 dark:hover:bg-zinc-700",
+                  "pressed:bg-accent/90 pressed:text-white",
+                  "disabled:opacity-50",
 
                   isToday(date, getLocalTimeZone()) && [
-                    'bg-zinc-100 dark:bg-zinc-700',
+                    "bg-zinc-100 dark:bg-zinc-700",
                   ],
 
-                  'selected:text-sm selected:text-white',
-                  'selected:border selected:border-accent selected:dark:border-0',
-                  'selected:bg-accent selected:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]',
-                  'selected:hover:bg-accent dark:selected:hover:bg-accent',
-                  'selected:invalid:border-destructive selected:invalid:bg-destructive selected:invalid:text-white',
-                  'unavailable:text-destructive unavailable:line-through unavailable:decoration-destructive',
-                  focusVisibleOutline,
+                  "selected:text-sm selected:text-white",
+                  "selected:border selected:border-accent selected:dark:border-0",
+                  "selected:bg-accent selected:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]",
+                  "selected:hover:bg-accent dark:selected:hover:bg-accent",
+                  "selected:invalid:border-destructive selected:invalid:bg-destructive selected:invalid:text-white",
+                  "unavailable:text-destructive unavailable:line-through unavailable:decoration-destructive",
+                  focusVisibleOutline
                 )}
               />
             );
@@ -77,6 +87,9 @@ export function Calendar<T extends DateValue>({
   );
 }
 
+/**
+ * En-tête du calendrier avec boutons de navigation
+ */
 export function CalendarHeader() {
   const { direction } = useLocale();
 
@@ -89,7 +102,7 @@ export function CalendarHeader() {
         aria-label="Previous"
         className="focus-visible:-outline-offset-2 [&:not(:hover)]:text-muted"
       >
-        {direction === 'rtl' ? (
+        {direction === "rtl" ? (
           <ChevronRightIcon className="sm:size-5" strokeWidth="1.5" />
         ) : (
           <ChevronLeftIcon className="sm:size-5" strokeWidth="1.5" />
@@ -109,7 +122,7 @@ export function CalendarHeader() {
         aria-label="Next"
         className="focus-visible:-outline-offset-2 [&:not(:hover)]:text-muted"
       >
-        {direction === 'rtl' ? (
+        {direction === "rtl" ? (
           <ChevronLeftIcon className="sm:size-5" strokeWidth="1.5" />
         ) : (
           <ChevronRightIcon className="sm:size-5" strokeWidth="1.5" />
@@ -119,6 +132,9 @@ export function CalendarHeader() {
   );
 }
 
+/**
+ * En-tête de la grille du calendrier affichant les jours de la semaine
+ */
 export function CalendarGridHeader() {
   return (
     <RACCalendarGridHeader>

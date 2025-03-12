@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   DateRangePicker as AriaDateRangePicker,
   DateRangePickerProps as AriaDateRangePickerProps,
@@ -6,23 +6,34 @@ import {
   DateValue,
   useLocale,
   Group,
-} from 'react-aria-components';
-import { Button } from './button';
-import { DateInput } from './date-field';
-import { Dialog } from './dialog';
-import { Popover } from './popover';
-import { RangeCalendar } from './range-calendar';
+} from "react-aria-components";
+import { Button } from "./button";
+import { DateInput } from "./date-field";
+import { Dialog } from "./dialog";
+import { Popover } from "./popover";
+import { RangeCalendar } from "./range-calendar";
 import {
   composeTailwindRenderProps,
   focusWithinRing,
   inputField,
-} from './utils';
-import { twMerge } from 'tailwind-merge';
-import { CalendarIcon } from './icons';
+} from "./utils";
+import { twMerge } from "tailwind-merge";
+import { CalendarIcon } from "./icons";
 
+/**
+ * Props pour le composant DateRangePicker
+ */
 export interface DateRangePickerProps<T extends DateValue>
   extends AriaDateRangePickerProps<T> {}
 
+/**
+ * Sélecteur de plage de dates avec calendrier
+ *
+ * @example
+ * <DateRangePicker>
+ *   <DateRangePickerInput />
+ * </DateRangePicker>
+ */
 export function DateRangePicker<T extends DateValue>({
   ...props
 }: DateRangePickerProps<T>) {
@@ -34,6 +45,14 @@ export function DateRangePicker<T extends DateValue>({
   );
 }
 
+/**
+ * Champ de saisie pour le sélecteur de plage de dates
+ *
+ * @example
+ * <DateRangePicker>
+ *   <DateRangePickerInput />
+ * </DateRangePicker>
+ */
 export function DateRangePickerInput() {
   const { locale } = useLocale();
   const state = React.useContext(DateRangePickerStateContext);
@@ -44,24 +63,24 @@ export function DateRangePickerInput() {
       <Group
         data-ui="control"
         className={twMerge(
-          '[&:has([aria-valuetext=Empty]:) w-full',
-          'grid grid-cols-[max-content_16px_max-content_1fr] items-center',
-          'group relative rounded-md border bg-inherit',
-          'group-invalid:border-destructive',
-          '[&:has(_input[data-disabled=true])]:border-border/50',
-          '[&:has([data-ui=date-segment][aria-readonly])]:bg-zinc-50',
-          'dark:[&:has([data-ui=date-segment][aria-readonly])]:bg-white/10',
-          formattedValue ? 'min-w-60' : 'min-w-[278px]',
-          focusWithinRing,
+          "[&:has([aria-valuetext=Empty]:) w-full",
+          "grid grid-cols-[max-content_16px_max-content_1fr] items-center",
+          "group relative rounded-md border bg-inherit",
+          "group-invalid:border-destructive",
+          "[&:has(_input[data-disabled=true])]:border-border/50",
+          "[&:has([data-ui=date-segment][aria-readonly])]:bg-zinc-50",
+          "dark:[&:has([data-ui=date-segment][aria-readonly])]:bg-white/10",
+          formattedValue ? "min-w-60" : "min-w-[278px]",
+          focusWithinRing
         )}
       >
         <DateInput
           slot="start"
           className={[
-            'flex min-w-fit border-none focus-within:ring-0',
-            '[&:has([data-ui=date-segment][aria-readonly])]:bg-transparent',
-            'dark:[&:has([data-ui=date-segment][aria-readonly])]:bg-transparent',
-          ].join(' ')}
+            "flex min-w-fit border-none focus-within:ring-0",
+            "[&:has([data-ui=date-segment][aria-readonly])]:bg-transparent",
+            "dark:[&:has([data-ui=date-segment][aria-readonly])]:bg-transparent",
+          ].join(" ")}
         />
         <span
           aria-hidden="true"
@@ -72,10 +91,10 @@ export function DateRangePickerInput() {
         <DateInput
           slot="end"
           className={[
-            'flex min-w-fit flex-1 border-none opacity-100 focus-within:ring-0',
-            '[&:has([data-ui=date-segment][aria-readonly])]:bg-transparent',
-            'dark:[&:has([data-ui=date-segment][aria-readonly])]:bg-transparent',
-          ].join(' ')}
+            "flex min-w-fit flex-1 border-none opacity-100 focus-within:ring-0",
+            "[&:has([data-ui=date-segment][aria-readonly])]:bg-transparent",
+            "dark:[&:has([data-ui=date-segment][aria-readonly])]:bg-transparent",
+          ].join(" ")}
         />
         <Button
           variant="plain"
@@ -88,10 +107,10 @@ export function DateRangePickerInput() {
       </Group>
       <Popover
         className={[
-          'max-w-none',
-          'dark:bg-zinc-800',
-          'dark:ring-zinc-700',
-        ].join(' ')}
+          "max-w-none",
+          "dark:bg-zinc-800",
+          "dark:ring-zinc-700",
+        ].join(" ")}
         placement="bottom"
       >
         <Dialog className="overflow-auto">
@@ -102,11 +121,21 @@ export function DateRangePickerInput() {
   );
 }
 
+/**
+ * Bouton pour ouvrir le sélecteur de plage de dates
+ *
+ * @example
+ * <DateRangePicker>
+ *   <DateRangePickerButton>Sélectionner une période</DateRangePickerButton>
+ * </DateRangePicker>
+ */
 export function DateRangePickerButton({
   className,
   children,
 }: {
+  /** Classes CSS additionnelles */
   className?: string;
+  /** Texte à afficher quand aucune plage n'est sélectionnée */
   children?: React.ReactNode;
 }) {
   const { locale } = useLocale();
@@ -119,16 +148,16 @@ export function DateRangePickerButton({
         <Button
           variant="outline"
           className={twMerge(
-            'w-full min-w-64 px-0 font-normal sm:px-0',
-            className,
+            "w-full min-w-64 px-0 font-normal sm:px-0",
+            className
           )}
         >
           <div
             className={twMerge(
-              'grid w-full items-center',
+              "grid w-full items-center",
               formattedValue
-                ? 'grid grid-cols-[1fr_16px_1fr_36px]'
-                : 'grid-cols-[1fr_36px]',
+                ? "grid grid-cols-[1fr_16px_1fr_36px]"
+                : "grid-cols-[1fr_36px]"
             )}
           >
             {formattedValue ? (
@@ -161,10 +190,10 @@ export function DateRangePickerButton({
       </Group>
       <Popover
         className={[
-          'max-w-none',
-          'dark:bg-zinc-800',
-          'dark:ring-zinc-700 ',
-        ].join(' ')}
+          "max-w-none",
+          "dark:bg-zinc-800",
+          "dark:ring-zinc-700 ",
+        ].join(" ")}
         placement="bottom"
       >
         <Dialog className="overflow-auto">

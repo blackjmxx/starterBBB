@@ -6,10 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "docs": "jsdoc -c jsdoc.json",
+    "generate-docs": "node src/scripts/generate-docs.js"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.27.5",
     "@hookform/resolvers": "^3.10.0",
+    "@iconify/react": "^5.2.0",
     "@tailwindcss/container-queries": "^0.1.1",
     "@types/react-router-dom": "^5.3.3",
     "autoprefixer": "^10.4.16",
@@ -35,13 +39,20 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.8",
+    "@babel/parser": "^7.22.5",
+    "@babel/traverse": "^7.22.5",
     "@svgr/webpack": "^8.1.0",
     "@types/node": "^20.10.5",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
     "babel-loader": "^9.2.1",
+    "better-docs": "^2.7.3",
+    "doctrine": "^3.0.0",
     "eslint": "^8.56.0",
     "eslint-config-next": "14.0.4",
+    "jsdoc": "^4.0.4",
+    "jsdoc-tsimport-plugin": "^1.0.5",
+    "typedoc": "^0.27.9",
     "typescript": "^5.3.3"
   }
 }

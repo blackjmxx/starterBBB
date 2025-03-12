@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   ComboBox as RACComboBox,
   ComboBoxProps as RACComboBoxProps,
@@ -6,86 +6,112 @@ import {
   GroupProps,
   Group,
   Keyboard,
-} from 'react-aria-components';
-import { ButtonProps, Button } from './button';
-import { composeTailwindRenderProps, inputField } from './utils';
-import { twMerge } from 'tailwind-merge';
+} from "react-aria-components";
+import { ButtonProps, Button } from "./button";
+import { composeTailwindRenderProps, inputField } from "./utils";
+import { twMerge } from "tailwind-merge";
 import {
-  SelectListBox,
+  SelectList,
   SelectListItem,
   SelectListItemDescription,
   SelectListItemLabel,
   SelectPopover,
   SelectSection,
-} from './select';
-import { Input } from './field';
-import { ChevronDownIcon, XIcon } from './icons';
+} from "./select";
+import { Input } from "./field";
+import { ChevronDownIcon, XIcon } from "./icons";
 
+/**
+ * Composant principal de liste déroulante avec saisie
+ *
+ * @example
+ * <ComboBox>
+ *   <ComboBoxGroup>
+ *     <ComboBoxInput />
+ *     <ComboBoxButton />
+ *   </ComboBoxGroup>
+ *   <ComboBoxPopover>
+ *     <ComboBoxListBox>
+ *       <ComboBoxListItem>Option 1</ComboBoxListItem>
+ *       <ComboBoxListItem>Option 2</ComboBoxListItem>
+ *     </ComboBoxListBox>
+ *   </ComboBoxPopover>
+ * </ComboBox>
+ */
 export function ComboBox(props: RACComboBoxProps<object>) {
   return (
     <RACComboBox
       {...props}
       data-ui="comboBox"
       className={composeTailwindRenderProps(props.className, [
-        'w-full min-w-56',
+        "w-full min-w-56",
         inputField,
       ])}
     />
   );
 }
 
+/**
+ * Groupe contenant les éléments de contrôle du ComboBox
+ */
 export function ComboBoxGroup(props: GroupProps) {
   return (
     <Group
       data-ui="control"
       {...props}
       className={composeTailwindRenderProps(props.className, [
-        'group/combobox',
-        'isolate',
-        'grid',
-        'grid-cols-[36px_1fr_minmax(40px,max-content)_minmax(40px,max-content)]',
-        'sm:grid-cols-[36px_1fr_minmax(36px,max-content)_minmax(36px,max-content)]',
-        'items-center',
+        "group/combobox",
+        "isolate",
+        "grid",
+        "grid-cols-[36px_1fr_minmax(40px,max-content)_minmax(40px,max-content)]",
+        "sm:grid-cols-[36px_1fr_minmax(36px,max-content)_minmax(36px,max-content)]",
+        "items-center",
 
         // Icon
-        'sm:[&>[data-ui=icon]:has(+input)]:size-4',
-        '[&>[data-ui=icon]:has(+input)]:size-5',
-        '[&>[data-ui=icon]:has(+input)]:row-start-1',
-        '[&>[data-ui=icon]:has(+input)]:col-start-1',
-        '[&>[data-ui=icon]:has(+input)]:place-self-center',
-        '[&>[data-ui=icon]:has(+input)]:text-muted',
-        '[&>[data-ui=icon]:has(+input)]:z-10',
+        "sm:[&>[data-ui=icon]:has(+input)]:size-4",
+        "[&>[data-ui=icon]:has(+input)]:size-5",
+        "[&>[data-ui=icon]:has(+input)]:row-start-1",
+        "[&>[data-ui=icon]:has(+input)]:col-start-1",
+        "[&>[data-ui=icon]:has(+input)]:place-self-center",
+        "[&>[data-ui=icon]:has(+input)]:text-muted",
+        "[&>[data-ui=icon]:has(+input)]:z-10",
 
         // Input
-        '[&>input]:row-start-1',
-        '[&>input]:col-span-full',
-        '[&>input:not([class*=pe-])]:pe-10',
-        'sm:[&>input:not([class*=pe-])]:pe-9',
+        "[&>input]:row-start-1",
+        "[&>input]:col-span-full",
+        "[&>input:not([class*=pe-])]:pe-10",
+        "sm:[&>input:not([class*=pe-])]:pe-9",
 
-        '[&>input:has(+[data-ui=clear]:not(:last-of-type))]:pe-20',
-        'sm:[&>input:has(+[data-ui=clear]:not(:last-of-type))]:pe-16',
+        "[&>input:has(+[data-ui=clear]:not(:last-of-type))]:pe-20",
+        "sm:[&>input:has(+[data-ui=clear]:not(:last-of-type))]:pe-16",
 
-        '[&:has([data-ui=icon]+input)>input]:ps-10',
-        'sm:[&:has([data-ui=icon]+input)>input]:ps-8',
+        "[&:has([data-ui=icon]+input)>input]:ps-10",
+        "sm:[&:has([data-ui=icon]+input)>input]:ps-8",
 
         // Trigger button
-        '[&>[data-ui=trigger]]:row-start-1',
-        '[&>[data-ui=trigger]]:-col-end-1',
-        '[&>[data-ui=trigger]]:place-self-center',
+        "[&>[data-ui=trigger]]:row-start-1",
+        "[&>[data-ui=trigger]]:-col-end-1",
+        "[&>[data-ui=trigger]]:place-self-center",
 
         // Clear button
-        '[&>[data-ui=clear]]:row-start-1',
-        '[&>[data-ui=clear]]:-col-end-2',
-        '[&>[data-ui=clear]]:justify-self-end',
-        '[&>[data-ui=clear]:last-of-type]:-col-end-1',
-        '[&>[data-ui=clear]:last-of-type]:place-self-center',
+        "[&>[data-ui=clear]]:row-start-1",
+        "[&>[data-ui=clear]]:-col-end-2",
+        "[&>[data-ui=clear]]:justify-self-end",
+        "[&>[data-ui=clear]:last-of-type]:-col-end-1",
+        "[&>[data-ui=clear]:last-of-type]:place-self-center",
       ])}
     />
   );
 }
 
+/**
+ * Champ de saisie pour le ComboBox
+ */
 export const ComboBoxInput = Input;
 
+/**
+ * Bouton d'ouverture du menu déroulant
+ */
 export function ComboBoxButton() {
   return (
     <Button
@@ -100,21 +126,28 @@ export function ComboBoxButton() {
   );
 }
 
+/**
+ * Bouton pour effacer la sélection actuelle
+ *
+ * @example
+ * <ComboBoxClearButton onPress={() => console.log('Cleared')} />
+ */
 export function ComboBoxClearButton({
   onPress,
 }: {
-  onPress?: ButtonProps['onPress'];
+  /** Fonction appelée lors du clic sur le bouton */
+  onPress?: ButtonProps["onPress"];
 }) {
   const state = React.useContext(ComboBoxStateContext);
 
   return (
     <Button
       className={twMerge(
-        '[&:not(:hover)]:text-muted ',
-        '[&:not(:last-child)]:-me-1',
+        "[&:not(:hover)]:text-muted ",
+        "[&:not(:last-child)]:-me-1",
         state?.inputValue
-          ? 'visible focus-visible:-outline-offset-2'
-          : 'invisible',
+          ? "visible focus-visible:-outline-offset-2"
+          : "invisible"
       )}
       slot={null}
       data-ui="clear"
@@ -134,6 +167,9 @@ export function ComboBoxClearButton({
   );
 }
 
+/**
+ * Bouton de commande avec raccourci clavier
+ */
 export function CommandButton() {
   return (
     <>
@@ -156,14 +192,27 @@ export function CommandButton() {
   );
 }
 
+/**
+ * Popover contenant la liste des options
+ */
 export const ComboBoxPopover = SelectPopover;
 
+/**
+ * Section pour grouper les options
+ */
 export const ComboBoxSection = SelectSection;
 
-export const ComboBoxListBox = SelectListBox;
-
+/**
+ * Option individuelle dans la liste
+ */
 export const ComboBoxListItem = SelectListItem;
 
+/**
+ * Libellé principal d'une option
+ */
 export const ComboBoxListItemLabel = SelectListItemLabel;
 
+/**
+ * Description secondaire d'une option
+ */
 export const ComboBoxListItemDescription = SelectListItemDescription;

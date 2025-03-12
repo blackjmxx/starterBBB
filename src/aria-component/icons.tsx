@@ -1,10 +1,20 @@
-import { twMerge } from 'tailwind-merge';
-import { Icon } from './accessible-icon';
+import { twMerge } from "tailwind-merge";
+import { Icon } from "./accessible-icon";
 
+/**
+ * Collection d'icônes accessibles pour l'interface utilisateur
+ * Chaque icône accepte les propriétés SVG standard et un aria-label optionnel
+ */
+
+/**
+ * Icône d'œil pour les actions de visualisation
+ *
+ * @param props - Propriétés SVG standard avec aria-label optionnel
+ */
 export function EyeIcon({
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
@@ -25,9 +35,9 @@ export function EyeIcon({
 }
 
 export function EyeOffIcon({
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
@@ -48,9 +58,9 @@ export function EyeOffIcon({
 }
 
 export function CheckIcon({
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
@@ -71,9 +81,9 @@ export function CheckIcon({
 }
 
 export function CircleInfoIcon({
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
@@ -97,9 +107,9 @@ export function CircleInfoIcon({
 }
 
 export function CircleCheckIcon({
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
@@ -122,9 +132,9 @@ export function CircleCheckIcon({
 }
 
 export function OctagonAlertIcon({
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
@@ -148,9 +158,9 @@ export function OctagonAlertIcon({
 }
 
 export function CircleXIcon({
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
@@ -174,9 +184,9 @@ export function CircleXIcon({
 }
 
 export function PlusIcon({
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
@@ -199,9 +209,9 @@ export function PlusIcon({
 }
 
 export function MinusIcon({
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
@@ -223,9 +233,9 @@ export function MinusIcon({
 }
 
 export function XIcon({
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
@@ -248,9 +258,9 @@ export function XIcon({
 }
 
 export function CalendarIcon({
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
@@ -275,9 +285,9 @@ export function CalendarIcon({
 }
 
 export function ChevronUpIcon({
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
@@ -299,9 +309,9 @@ export function ChevronUpIcon({
 }
 
 export function ChevronDownIcon({
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
@@ -323,9 +333,9 @@ export function ChevronDownIcon({
 }
 
 export function ChevronRightIcon({
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
@@ -347,9 +357,9 @@ export function ChevronRightIcon({
 }
 
 export function ChevronLeftIcon({
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
@@ -371,9 +381,9 @@ export function ChevronLeftIcon({
 }
 
 export function SearchIcon({
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
@@ -394,13 +404,13 @@ export function SearchIcon({
 
 export function SpinnerIcon({
   className,
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
-        className={twMerge('animate-spin', className)}
+        className={twMerge("animate-spin", className)}
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -425,9 +435,9 @@ export function SpinnerIcon({
 }
 
 export function CopyIcon({
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
@@ -451,13 +461,13 @@ export function CopyIcon({
 
 export function AvailableIcon({
   className,
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
-        className={twMerge('text-emerald-600', className)}
+        className={twMerge("text-emerald-600", className)}
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 512 512"
         fill="currentColor"
@@ -471,13 +481,13 @@ export function AvailableIcon({
 
 export function BusyIcon({
   className,
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
-        className={twMerge('text-red-600', className)}
+        className={twMerge("text-red-600", className)}
         fill="currentColor"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 512 512"
@@ -491,13 +501,13 @@ export function BusyIcon({
 
 export function AwayIcon({
   className,
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
-        className={twMerge('text-slate-400', className)}
+        className={twMerge("text-slate-400", className)}
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 512 512"
         fill="none"
@@ -515,14 +525,14 @@ export function AwayIcon({
 
 export function DoNotDisturbIcon({
   className,
-  'aria-label': arialLabel,
+  "aria-label": arialLabel,
   ...props
-}: React.JSX.IntrinsicElements['svg']) {
+}: React.JSX.IntrinsicElements["svg"]) {
   return (
     <Icon aria-label={arialLabel}>
       <svg
         fill="currentColor"
-        className={twMerge('text-red-600', className)}
+        className={twMerge("text-red-600", className)}
         aria-hidden="true"
         viewBox="0 0 10 10"
         xmlns="http://www.w3.org/2000/svg"

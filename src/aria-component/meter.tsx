@@ -1,14 +1,30 @@
 import {
   Meter as AriaMeter,
   MeterProps as AriaMeterProps,
-} from 'react-aria-components';
-import { Label } from './field';
-import { composeTailwindRenderProps } from './utils';
+} from "react-aria-components";
+import { Label } from "./field";
+import { composeTailwindRenderProps } from "./utils";
 
+/**
+ * Props pour le composant Meter
+ */
 export interface MeterProps extends AriaMeterProps {
+  /** Libellé décrivant la mesure */
   label?: string;
 }
 
+/**
+ * Indicateur de mesure visuel avec différentes variantes de couleur
+ *
+ * @example
+ * <Meter label="Espace disque" value={75} maxValue={100} />
+ *
+ * @example
+ * <Meter label="Progression" value={85} maxValue={100} positive />
+ *
+ * @example
+ * <Meter label="Utilisation" value={30} maxValue={100} informative />
+ */
 export function Meter({
   label,
   positive,
@@ -17,17 +33,22 @@ export function Meter({
 }: MeterProps &
   (
     | {
+        /** Si true, utilise une couleur positive (vert) quelle que soit la valeur */
         positive?: true;
         informative?: never;
       }
-    | { positive?: never; informative?: true }
+    | {
+        positive?: never;
+        /** Si true, utilise une couleur informative (bleu) quelle que soit la valeur */
+        informative?: true;
+      }
   )) {
   return (
     <AriaMeter
       {...props}
       className={composeTailwindRenderProps(
         props.className,
-        'flex flex-col gap-1',
+        "flex flex-col gap-1"
       )}
     >
       {({ percentage, valueText }) => (
@@ -35,7 +56,12 @@ export function Meter({
           <div className="flex justify-between gap-2">
             <Label>{label}</Label>
             <span
-              className={`text-sm ${percentage >= 80 && !positive && !informative && 'text-destructive'}`}
+              className={`text-sm ${
+                percentage >= 80 &&
+                !positive &&
+                !informative &&
+                "text-destructive"
+              }`}
             >
               {percentage >= 80 && !positive && (
                 <svg
@@ -56,13 +82,16 @@ export function Meter({
                   <path d="M12 17h.01" />
                 </svg>
               )}
-              {' ' + valueText}
+              {" " + valueText}
             </span>
           </div>
           <div className="relative h-2 w-64  rounded-full bg-gray-300 outline outline-1 -outline-offset-1 outline-transparent dark:bg-zinc-700">
             <div
-              className={`absolute left-0 top-0 h-full rounded-full ${getColor(percentage, { positive, informative })}`}
-              style={{ width: percentage + '%' }}
+              className={`absolute left-0 top-0 h-full rounded-full ${getColor(
+                percentage,
+                { positive, informative }
+              )}`}
+              style={{ width: percentage + "%" }}
             />
           </div>
         </>
@@ -71,25 +100,28 @@ export function Meter({
   );
 }
 
+/**
+ * Détermine la couleur de l'indicateur en fonction du pourcentage et des options
+ */
 function getColor(
   percentage: number,
-  { positive, informative }: { positive?: boolean; informative?: boolean },
+  { positive, informative }: { positive?: boolean; informative?: boolean }
 ) {
   if (positive) {
-    return 'bg-success';
+    return "bg-success";
   }
 
   if (informative) {
-    return 'bg-blue-500';
+    return "bg-blue-500";
   }
 
   if (percentage < 70) {
-    return 'bg-success';
+    return "bg-success";
   }
 
   if (percentage < 80) {
-    return 'bg-yellow-600';
+    return "bg-yellow-600";
   }
 
-  return 'bg-destructive';
+  return "bg-destructive";
 }

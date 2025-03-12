@@ -9,23 +9,41 @@ import {
   MenuSectionProps as RACMenuSectionProps,
   MenuSection as RACMenuSection,
   Collection,
-} from 'react-aria-components';
-import { twMerge } from 'tailwind-merge';
-import { Popover, PopoverProps } from './popover';
-import { Button, ButtonProps } from './button';
-import { composeTailwindRenderProps } from './utils';
-import { Small } from './text';
-import { CheckIcon, ChevronDownIcon, ChevronRightIcon } from './icons';
+} from "react-aria-components";
+import { twMerge } from "tailwind-merge";
+import { Popover, PopoverProps } from "./popover";
+import { Button, ButtonProps } from "./button";
+import { composeTailwindRenderProps } from "./utils";
+import { Small } from "./text";
+import { CheckIcon, ChevronDownIcon, ChevronRightIcon } from "./icons";
 
-export { MenuTrigger, SubmenuTrigger } from 'react-aria-components';
+export { MenuTrigger, SubmenuTrigger } from "react-aria-components";
 
+/**
+ * Props pour le bouton de menu
+ */
 type MenuButtonProps = ButtonProps & {
+  /** Si true, n'affiche pas l'indicateur de menu déroulant */
   noIndicator?: boolean;
 };
 
+/**
+ * Bouton qui déclenche l'ouverture d'un menu
+ *
+ * @example
+ * <MenuTrigger>
+ *   <MenuButton>Options</MenuButton>
+ *   <MenuPopover>
+ *     <Menu>
+ *       <MenuItem>Option 1</MenuItem>
+ *       <MenuItem>Option 2</MenuItem>
+ *     </Menu>
+ *   </MenuPopover>
+ * </MenuTrigger>
+ */
 export function MenuButton({
   noIndicator,
-  variant = 'outline',
+  variant = "outline",
   children,
   ...props
 }: MenuButtonProps) {
@@ -34,8 +52,8 @@ export function MenuButton({
       {(renderProps) => {
         return (
           <>
-            {typeof children === 'function' ? children(renderProps) : children}
-            {!noIndicator && <ChevronDownIcon className='ms-auto' />}
+            {typeof children === "function" ? children(renderProps) : children}
+            {!noIndicator && <ChevronDownIcon className="ms-auto" />}
           </>
         );
       }}
@@ -43,6 +61,9 @@ export function MenuButton({
   );
 }
 
+/**
+ * Popover contenant un menu
+ */
 export function MenuPopover({ className, ...props }: PopoverProps) {
   return (
     <Popover
@@ -50,25 +71,39 @@ export function MenuPopover({ className, ...props }: PopoverProps) {
       className={composeTailwindRenderProps(
         className,
         twMerge(
-          'dark:bg-zinc-800',
-          'dark:ring-zinc-700',
-          'max-w-72',
-          'rounded-md',
-          'min-w-[max(theme(spacing[36]),var(--trigger-width))]',
-          'has-[[data-ui=content]_[data-ui=icon]]:min-w-[max(theme(spacing[48]),var(--trigger-width))]',
-          'has-[[data-ui=content]_kbd]:min-w-[max(theme(spacing[11]),var(--trigger-width))]',
-        ),
+          "dark:bg-zinc-800",
+          "dark:ring-zinc-700",
+          "max-w-72",
+          "rounded-md",
+          "min-w-[max(theme(spacing[36]),var(--trigger-width))]",
+          "has-[[data-ui=content]_[data-ui=icon]]:min-w-[max(theme(spacing[48]),var(--trigger-width))]",
+          "has-[[data-ui=content]_kbd]:min-w-[max(theme(spacing[11]),var(--trigger-width))]"
+        )
       )}
     />
   );
 }
 
+/**
+ * Props pour le composant Menu
+ */
 type MenuProps<T> = RACMenuProps<T> & {
-  selectedIconPlacement?: 'start' | 'end';
+  /** Position de l'icône de sélection */
+  selectedIconPlacement?: "start" | "end";
 };
 
+/**
+ * Conteneur pour les éléments de menu
+ *
+ * @example
+ * <Menu>
+ *   <MenuItem>Option 1</MenuItem>
+ *   <MenuSeparator />
+ *   <MenuItem>Option 2</MenuItem>
+ * </Menu>
+ */
 export function Menu<T extends object>({
-  selectedIconPlacement = 'end',
+  selectedIconPlacement = "end",
   ...props
 }: MenuProps<T>) {
   return (
@@ -76,74 +111,96 @@ export function Menu<T extends object>({
       {...props}
       data-selected-icon-placement={selectedIconPlacement}
       className={twMerge(
-        'max-h-[inherit] overflow-auto outline-none',
-        'flex flex-col',
-        'p-1 has-[header]:pt-0',
+        "max-h-[inherit] overflow-auto outline-none",
+        "flex flex-col",
+        "p-1 has-[header]:pt-0",
 
         // Header, Menu item style when has selectable items
-        '[&_header]:px-2',
+        "[&_header]:px-2",
 
-        selectedIconPlacement === 'start' &&
-          '[&:has(:is([role=menuitemradio],[role=menuitemcheckbox]))_:is(header,[role=menuitem])]:ps-7',
+        selectedIconPlacement === "start" &&
+          "[&:has(:is([role=menuitemradio],[role=menuitemcheckbox]))_:is(header,[role=menuitem])]:ps-7",
 
         // Menu item content
-        '[&_[data-ui=content]]:flex-1',
-        '[&_[data-ui=content]]:grid',
-        '[&_[data-ui=content]:has([data-ui=label])]:grid-cols-[theme(spacing[4])_1fr_minmax(theme(spacing[12]),max-content)]',
-        '[&_[data-ui=content]]:items-center',
-        '[&_[data-ui=content]]:gap-x-2',
+        "[&_[data-ui=content]]:flex-1",
+        "[&_[data-ui=content]]:grid",
+        "[&_[data-ui=content]:has([data-ui=label])]:grid-cols-[theme(spacing[4])_1fr_minmax(theme(spacing[12]),max-content)]",
+        "[&_[data-ui=content]]:items-center",
+        "[&_[data-ui=content]]:gap-x-2",
 
         // Icon
-        '[&_[data-ui=content]:not(:hover)>[data-ui=icon]:not([class*=text-])]:text-muted',
-        '[&_[data-ui=content][data-destructive]>[data-ui=icon]]:text-destructive',
-        '[&_[data-ui=content][data-destructive]:not(:hover)>[data-ui=icon]]:text-destructive/75',
-        '[&_[data-ui=content]>[data-ui=icon]:not([class*=size-])]:size-4',
-        '[&_[data-ui=content]>[data-ui=icon]:first-child]:col-start-1',
+        "[&_[data-ui=content]:not(:hover)>[data-ui=icon]:not([class*=text-])]:text-muted",
+        "[&_[data-ui=content][data-destructive]>[data-ui=icon]]:text-destructive",
+        "[&_[data-ui=content][data-destructive]:not(:hover)>[data-ui=icon]]:text-destructive/75",
+        "[&_[data-ui=content]>[data-ui=icon]:not([class*=size-])]:size-4",
+        "[&_[data-ui=content]>[data-ui=icon]:first-child]:col-start-1",
 
         // Label
-        '[&_[data-ui=label]]:col-span-full',
-        '[&:has([data-ui=icon]+[data-ui=label])_[data-ui=label]]:col-start-2',
-        '[&:has([data-ui=kbd])_[data-ui=label]]:-col-end-2',
-        '[&:has([data-ui=icon]+[data-ui=label])_[data-ui=content]:not(:has(>[data-ui=label]))]:ps-6',
+        "[&_[data-ui=label]]:col-span-full",
+        "[&:has([data-ui=icon]+[data-ui=label])_[data-ui=label]]:col-start-2",
+        "[&:has([data-ui=kbd])_[data-ui=label]]:-col-end-2",
+        "[&:has([data-ui=icon]+[data-ui=label])_[data-ui=content]:not(:has(>[data-ui=label]))]:ps-6",
 
         // Kbd
-        '[&_[data-ui=kbd]]:col-span-1',
-        '[&_[data-ui=kbd]]:row-start-1',
-        '[&_[data-ui=kbd]]:col-start-3',
-        '[&_[data-ui=kbd]]:justify-self-end',
-        '[&_[data-destructive]>[data-ui=kbd]]:text-destructive',
+        "[&_[data-ui=kbd]]:col-span-1",
+        "[&_[data-ui=kbd]]:row-start-1",
+        "[&_[data-ui=kbd]]:col-start-3",
+        "[&_[data-ui=kbd]]:justify-self-end",
+        "[&_[data-destructive]>[data-ui=kbd]]:text-destructive",
 
         // Description
-        '[&_[data-ui=description]]:col-span-full',
-        '[&:has([data-ui=kbd])_[data-ui=description]]:-col-end-2',
-        '[&:has([data-ui=icon]+[data-ui=label])_[data-ui=description]]:col-start-2',
-        props.className,
+        "[&_[data-ui=description]]:col-span-full",
+        "[&:has([data-ui=kbd])_[data-ui=description]]:-col-end-2",
+        "[&:has([data-ui=icon]+[data-ui=label])_[data-ui=description]]:col-start-2",
+        props.className
       )}
     />
   );
 }
 
+/**
+ * Menu pour les sous-menus
+ */
 export function SubMenu<T extends object>(
-  props: MenuProps<T> & { 'aria-label': string },
+  props: MenuProps<T> & { "aria-label": string }
 ) {
   return <Menu {...props} />;
 }
 
+/**
+ * Séparateur visuel entre les éléments de menu
+ */
 export function MenuSeparator({ className }: { className?: string }) {
   return (
     <Separator
       className={twMerge(
-        'my-1 w-[calc(100%-theme(spacing[4]))] self-center border-t border-zinc-950/5 dark:border-white/10',
-        className,
+        "my-1 w-[calc(100%-theme(spacing[4]))] self-center border-t border-zinc-950/5 dark:border-white/10",
+        className
       )}
     />
   );
 }
 
+/**
+ * Props pour le composant MenuItem
+ */
 type MenuItemProps = RACMenuItemProps & {
+  /** Si true, l'élément sera affiché en rouge pour indiquer une action destructive */
   destructive?: true;
 };
 
+/**
+ * Élément individuel dans un menu
+ *
+ * @example
+ * <MenuItem onPress={() => console.log("Clicked")}>
+ *   <MenuItemLabel>Option 1</MenuItemLabel>
+ *   <MenuItemDescription>Description de l'option</MenuItemDescription>
+ * </MenuItem>
+ *
+ * @example
+ * <MenuItem destructive>Supprimer</MenuItem>
+ */
 export function MenuItem({ destructive, ...props }: MenuItemProps) {
   return (
     <RACMenuItem
@@ -152,29 +209,29 @@ export function MenuItem({ destructive, ...props }: MenuItemProps) {
         props.className,
         (className, { isFocused, isDisabled }) => {
           return twMerge([
-            'group rounded outline-none',
-            'flex items-center gap-x-1.5',
-            'px-2 py-2.5 sm:py-1.5',
-            'text-base/6 sm:text-sm/6',
-            isDisabled && 'opacity-50',
-            isFocused && 'bg-zinc-100 dark:bg-zinc-700',
-            destructive && 'text-destructive',
+            "group rounded outline-none",
+            "flex items-center gap-x-1.5",
+            "px-2 py-2.5 sm:py-1.5",
+            "text-base/6 sm:text-sm/6",
+            isDisabled && "opacity-50",
+            isFocused && "bg-zinc-100 dark:bg-zinc-700",
+            destructive && "text-destructive",
             className,
           ]);
-        },
+        }
       )}
     >
       {composeRenderProps(
         props.children,
         (children, { selectionMode, isSelected }) => (
           <>
-            {selectionMode !== 'none' && (
+            {selectionMode !== "none" && (
               <span
                 data-ui="icon"
                 className={twMerge(
-                  'flex w-4 self-start',
-                  '[[data-selected-icon-placement=end]_&]:hidden',
-                  isSelected && 'mt-1',
+                  "flex w-4 self-start",
+                  "[[data-selected-icon-placement=end]_&]:hidden",
+                  isSelected && "mt-1"
                 )}
               >
                 {isSelected && <CheckIcon className="size-4" />}
@@ -187,13 +244,13 @@ export function MenuItem({ destructive, ...props }: MenuItemProps) {
             >
               {children}
             </div>
-            {selectionMode !== 'none' && (
+            {selectionMode !== "none" && (
               <span
                 data-ui="icon"
                 className={twMerge(
-                  'flex w-4 self-start',
-                  '[[data-selected-icon-placement=start]_&]:hidden',
-                  isSelected && 'mt-1',
+                  "flex w-4 self-start",
+                  "[[data-selected-icon-placement=start]_&]:hidden",
+                  isSelected && "mt-1"
                 )}
               >
                 {isSelected && <CheckIcon className="size-4" />}
@@ -203,30 +260,36 @@ export function MenuItem({ destructive, ...props }: MenuItemProps) {
             {/* Submenu indicator */}
             <ChevronRightIcon className="hidden size-4 text-muted group-data-[has-submenu]:inline-block" />
           </>
-        ),
+        )
       )}
     </RACMenuItem>
   );
 }
 
+/**
+ * Libellé principal d'un élément de menu
+ */
 export function MenuItemLabel({
   className,
   ...props
-}: React.JSX.IntrinsicElements['span']) {
+}: React.JSX.IntrinsicElements["span"]) {
   return (
     <span
       slot="label"
       data-ui="label"
-      className={twMerge('truncate', className)}
+      className={twMerge("truncate", className)}
       {...props}
     />
   );
 }
 
+/**
+ * Description secondaire d'un élément de menu
+ */
 export function MenuItemDescription({
   className,
   ...props
-}: React.JSX.IntrinsicElements['span']) {
+}: React.JSX.IntrinsicElements["span"]) {
   return (
     <Small
       slot="description"
@@ -237,10 +300,29 @@ export function MenuItemDescription({
   );
 }
 
+/**
+ * Props pour le composant MenuSection
+ */
 export interface MenuSectionProps<T> extends RACMenuSectionProps<T> {
+  /** Titre de la section */
   title?: string | React.ReactNode;
 }
 
+/**
+ * Section de menu avec titre
+ *
+ * @example
+ * <Menu>
+ *   <MenuSection title="Section 1">
+ *     <MenuItem>Option 1</MenuItem>
+ *     <MenuItem>Option 2</MenuItem>
+ *   </MenuSection>
+ *   <MenuSection title="Section 2">
+ *     <MenuItem>Option 3</MenuItem>
+ *     <MenuItem>Option 4</MenuItem>
+ *   </MenuSection>
+ * </Menu>
+ */
 export function MenuSection<T extends object>({
   className,
   ...props
@@ -249,18 +331,18 @@ export function MenuSection<T extends object>({
     <RACMenuSection
       {...props}
       className={twMerge(
-        '[&:not(:first-child)]:mt-1.5',
-        '[&:not(:first-child)]:border-t',
-        '[&:not(:first-child)]:border-t-border/40',
-        className,
+        "[&:not(:first-child)]:mt-1.5",
+        "[&:not(:first-child)]:border-t",
+        "[&:not(:first-child)]:border-t-border/40",
+        className
       )}
     >
       <Header
         className={twMerge(
-          'sticky inset-0 z-10',
-          'pt-2',
-          'truncate text-xs/6 text-muted',
-          'bg-white dark:bg-zinc-800',
+          "sticky inset-0 z-10",
+          "pt-2",
+          "truncate text-xs/6 text-muted",
+          "bg-white dark:bg-zinc-800"
         )}
       >
         {props.title}
